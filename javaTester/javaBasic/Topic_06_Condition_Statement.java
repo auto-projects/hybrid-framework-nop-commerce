@@ -86,20 +86,21 @@ public class Topic_06_Condition_Statement {
 		
 	}
 
+	@Test
 	@Parameters("browser")
 	public void TC_03_If_else_If_else(String browserName) {
 		
 		if (browserName.equalsIgnoreCase("chrome")) {
-			System.setProperty("Webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
 			driver = new ChromeDriver();	
 		} else if (browserName.equalsIgnoreCase("firefox")) {
-			System.setProperty("Webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
+			System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
 			driver = new FirefoxDriver();	
 		} else if (browserName.equalsIgnoreCase("edge")) {
-			System.setProperty("Webdriver.edge.driver", projectPath + "\\browserDrivers\\msedgedriver.exe");
+			System.setProperty("webdriver.edge.driver", projectPath + "\\browserDrivers\\msedgedriver.exe");
 			driver = new EdgeDriver();		
 		} else if (browserName.equalsIgnoreCase("ie")) {
-			System.setProperty("Webdriver.ie.driver", projectPath + "\\browserDrivers\\IEDriverServer.exe");
+			System.setProperty("webdriver.ie.driver", projectPath + "\\browserDrivers\\IEDriverServer.exe");
 			driver = new InternetExplorerDriver();	
 		} else { // Safari/ Opera/ Cococ/...
 			throw new RuntimeException("Please input correct the browser name!");
@@ -112,7 +113,7 @@ public class Topic_06_Condition_Statement {
 		
 	}
 
-	@Test
+	
 	public void TC_04_() {
 		// Page Object
 		// Dynamic Page
