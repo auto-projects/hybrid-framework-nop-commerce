@@ -26,7 +26,7 @@ public class BaseTest {
 			}
 		
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-		driver.get("https://demo.nopcommerce.com/");
+		driver.get("https://staging-kyc-app.herokuapp.com");
 		return driver;
 	}
 
