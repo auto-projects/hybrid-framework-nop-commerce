@@ -10,9 +10,4 @@ public class UserMyProductReviewPageObject extends BasePage {
 	public UserMyProductReviewPageObject(WebDriver driver) {
 		this.driver = driver;
 }
-
-	public UserRewardPointPageObject openRewardPointPage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

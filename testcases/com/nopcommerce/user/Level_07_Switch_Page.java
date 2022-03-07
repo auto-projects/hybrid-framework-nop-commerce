@@ -40,6 +40,7 @@ public class Level_07_Switch_Page extends BaseTest {
 		registerPage.inputToEmailTextbox(email);
 		registerPage.inputToPasswordTextbox(validPassword);
 		registerPage.inputToConfirmPasswordTextbox(validPassword);
+		registerPage.clickToRegisterButton();
 		Assert.assertEquals(registerPage.getRegisterSuccessMessage(), "Your registration completed");
 
 		userHomePage = registerPage.clickToLogoutLink();
@@ -47,25 +48,24 @@ public class Level_07_Switch_Page extends BaseTest {
 	
 	@Test
 	public void User_02_Login() {
-		loginPage = userHomePage.openLoginPage();
+		userLoginPage = userHomePage.openLoginPage();
 		
-		loginPage.inputToEmailTextbox(email);
-		loginPage.inputToPasswordTextbox(validPassword);
+		userLoginPage.inputToEmailTextbox(email);
+		userLoginPage.inputToPasswordTextbox(validPassword);
 		
-		userHomePage = loginPage.clickToLoginButton();
+		userHomePage = userLoginPage.clickToLoginButton();
 		Assert.assertTrue(userHomePage.isMyAccountLinkDisplayed());
 		}
 	
 	@Test
-	public void User_03_Customer_Infor() {
-		customerInforPage = userHomePage.openMyAccountPage();
-		Assert.assertTrue(customerInforPage.isCustomerInforPageDisplayed());
+	public void User_03_Customer_Info() {
+		customerInfoPage = userHomePage.openMyAccountPage();
+		Assert.assertTrue(customerInfoPage.isCustomerInfoPageDisplayed());
 	}
-	
 	@Test
 	public void User_04_Switch_Page() {
 		// Customer Info -> Address
-		addressPage = customerInforPage.openAddressPage(driver);
+		addressPage = customerInfoPage.openAddressPage(driver);
 		// Address -> My Product Review
 		myProductReviewPage = addressPage.openMyProductReviewPage(driver);
 		// My Product Review -> Reward Point
@@ -77,8 +77,10 @@ public class Level_07_Switch_Page extends BaseTest {
 		// Reward Point -> My Product Review
 		myProductReviewPage = rewardPointPage.openMyProductReviewPage(driver);
 		
+		addressPage = myProductReviewPage.openAddressPage(driver);
+		customerInfoPage = addressPage.openCustomerInforPage(driver);
 		
-	}
+		}
 	
 	@AfterClass
 	public void afterClass() {
@@ -88,8 +90,8 @@ public class Level_07_Switch_Page extends BaseTest {
 	private WebDriver driver;
 	private UserHomePageObject userHomePage;
 	private UserRegisterPageObject registerPage;
-	private UserLoginPageObject loginPage;
-	private UserCustomerInforPageObject customerInforPage;
+	private UserLoginPageObject userLoginPage;
+	private UserCustomerInforPageObject customerInfoPage;
 	private UserAddressPageObject addressPage;
 	private UserRewardPointPageObject rewardPointPage;
 	private UserMyProductReviewPageObject myProductReviewPage;

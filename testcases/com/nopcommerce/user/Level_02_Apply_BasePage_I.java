@@ -9,7 +9,6 @@ import org.testng.annotations.BeforeClass;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
@@ -35,7 +34,6 @@ public class Level_02_Apply_BasePage_I {
 		driver.get("https://demo.nopcommerce.com/");
 	 }
 
-
 	@Test
 	public void TC_01_Register_Empty_Data() {
 		basePage.waitForElementClickable(driver, "//a[@class='ico-register']");
@@ -43,7 +41,6 @@ public class Level_02_Apply_BasePage_I {
 		
 		basePage.waitForElementClickable(driver, "//button[@id='register-button']");
 		basePage.clickToElement(driver, "//button[@id='register-button']");
-		
 		
 		Assert.assertEquals(basePage.getElementText(driver, "//span[@id='FirstName-error']"), "First name is required.");
 		Assert.assertEquals(basePage.getElementText(driver, "//span[@id='LastName-error']"), "Last name is required.");

@@ -17,7 +17,6 @@ public class Level_01_Register_DRY {
 	String emailAddress;
 	String projectPath = System.getProperty("user.dir");
 	
-	
 	@BeforeClass
 	 public void beforeClass() {
 		System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
@@ -28,7 +27,6 @@ public class Level_01_Register_DRY {
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		driver.get("https://demo.nopcommerce.com/");
 	 }
-
 
 	@Test
 	public void TC_01_Register_Empty_Data() {
