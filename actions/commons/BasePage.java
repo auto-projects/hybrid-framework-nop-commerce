@@ -159,11 +159,11 @@ public class BasePage {
 
 	protected void selectItemInDefaultDropdown(WebDriver driver, String xpathLocator, String textItem) {
 		Select select = new Select(getWebElement(driver, xpathLocator));
-		select.selectByValue(textItem);
+		select.selectByVisibleText(textItem);
 	}
 	protected void selectItemInDefaultDropdown(WebDriver driver, String xpathLocator, String textItem, String... dynamicValues) {
 		Select select = new Select(getWebElement(driver, getDynamicXpath(xpathLocator, dynamicValues)));
-		select.selectByValue(textItem);
+		select.selectByVisibleText(textItem);
 	}
 	
 	protected String getSelectedItemDefaultDropdown(WebDriver driver, String xpathLocator) {
@@ -229,20 +229,31 @@ public class BasePage {
 		return getListWebElement(driver, getDynamicXpath(xpathLocator, dynamicValues)).size();
 	}
 	
-	protected void checkToDefaultCheckboxRadio(WebDriver driver, String xpathLocator) {
+	protected void checkToDefaultCheckboxOrRadio(WebDriver driver, String xpathLocator) {
 		WebElement element = getWebElement(driver, xpathLocator);
 		if (!element.isSelected()) {
 			element.click();
 		}
 	}
+	protected void checkToDefaultCheckboxOrRadio(WebDriver driver, String xpathLocator, String... dynamicValues) {
+		WebElement element = getWebElement(driver, getDynamicXpath(xpathLocator, dynamicValues));
+		if (!element.isSelected()) {
+			element.click();
+		}
+	}
 	
-	protected void uncheckToDefaultCheckboxRadio(WebDriver driver, String xpathLocator) {
+	protected void uncheckToDefaultCheckboxOrRadio(WebDriver driver, String xpathLocator) {
 		WebElement element = getWebElement(driver, xpathLocator);
 			if (element.isSelected()) {
 				element.click();
 	}
 	}
-	
+	protected void uncheckToDefaultCheckboxOrRadio(WebDriver driver, String xpathLocator, String... dynamicValues) {
+		WebElement element = getWebElement(driver, getDynamicXpath(xpathLocator, dynamicValues));
+			if (element.isSelected()) {
+				element.click();
+	}
+	}
 	protected boolean isElementDisplayed(WebDriver driver, String xpathLocator) {
 		return getWebElement(driver, xpathLocator).isDisplayed();
 	}

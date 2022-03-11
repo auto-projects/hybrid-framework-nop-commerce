@@ -1,5 +1,7 @@
 package com.jquery.datatable;
 
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -13,6 +15,8 @@ import pageObjects.jQuery.HomePageObject;
 
 public class Level_10_DataTable_DataGrid extends BaseTest {
 	HomePageObject homePage;
+	List<String> actualAllCountryValues;
+	List<String> expectedAllCountryValues;
 	
 	@Parameters({ "browser", "url" })
 	@BeforeClass
@@ -22,7 +26,7 @@ public class Level_10_DataTable_DataGrid extends BaseTest {
 				
 	 }
 
-	@Test
+	//@Test
 	public void Table_01_Paging() {
 		homePage.openPagingByPageNumber("10");
 		homePage.sleepInSecond(1);
@@ -45,7 +49,7 @@ public class Level_10_DataTable_DataGrid extends BaseTest {
 		Assert.assertTrue(homePage.isPageNumberActived("1"));
 		}
 	
-	@Test
+	//@Test
 	public void Table_02_Enter_To_Header() {
 		homePage.refreshCurrentPage(driver);
 		
@@ -60,11 +64,57 @@ public class Level_10_DataTable_DataGrid extends BaseTest {
 		homePage.enterToHeaderTextboxByLabel("Total", "553353");
 		homePage.sleepInSecond(3);
 		}
-	@Test
+	//@Test
 	public void Table_03_Enter_To_Header() {
 		homePage.refreshCurrentPage(driver);
 		
 		homePage.getValueEachRowAtAllPages();
+	}
+	//@Test
+	public void Table_04_Action_At_Any_Row() {
+		// Value để nhập liệu : tham số 1
+		// Row number: tại row nào
+		// Exp: Nhập v ào textbox tại dòng số 3/5/2...
+		// Column name: 
+		homePage.enterToTextboxAtRowNumberByColumnName("Album", "1", "Michael 97");
+		homePage.enterToTextboxAtRowNumberByColumnName("Artist", "1", "Michael Jackson");
+		homePage.enterToTextboxAtRowNumberByColumnName("Year", "1", "1997");
+		homePage.enterToTextboxAtRowNumberByColumnName("Price", "1", "15");
+		
+		homePage.selectDropdownByColumnNameAtRowNumber("Origin", "1", "Japan");
+		homePage.sleepInSecond(3);
+		
+		homePage.selectDropdownByColumnNameAtRowNumber("Origin", "1", "Hong Kong");
+		homePage.sleepInSecond(3);
+		
+		homePage.selectDropdownByColumnNameAtRowNumber("Origin", "1", "US");
+		homePage.sleepInSecond(3);
+	}
+	@Test
+	public void Table_05_Action_At_Any_Row() {
+		homePage.clickToLoadButton();
+		homePage.sleepInSecond(5);
+		
+		homePage.enterToTextboxAtRowNumberByColumnName("Album", "2", "Michael 97");
+		homePage.enterToTextboxAtRowNumberByColumnName("Artist", "4", "Michael Jackson");
+		homePage.enterToTextboxAtRowNumberByColumnName("Year", "3", "1997");
+		homePage.enterToTextboxAtRowNumberByColumnName("Price", "1", "150");
+		
+		homePage.selectDropdownByColumnNameAtRowNumber("Origin", "5", "Japan");
+		homePage.sleepInSecond(3);
+		
+		homePage.selectDropdownByColumnNameAtRowNumber("Origin", "1", "Hong Kong");
+		homePage.sleepInSecond(3);
+		
+		homePage.selectDropdownByColumnNameAtRowNumber("Origin", "1", "US");
+		homePage.sleepInSecond(3);
+		
+		homePage.checkToCheckboxByColumnNameAtRowNumber("With Poster?", "3");
+		homePage.checkToCheckboxByColumnNameAtRowNumber("With Poster?", "5");
+		
+		homePage.uncheckToCheckboxByColumnNameAtRowNumber("With Poster?", "1");
+		homePage.uncheckToCheckboxByColumnNameAtRowNumber("With Poster?", "2");
+		homePage.uncheckToCheckboxByColumnNameAtRowNumber("With Poster?", "4");
 	}
 	@AfterClass
 	public void afterClass() {
