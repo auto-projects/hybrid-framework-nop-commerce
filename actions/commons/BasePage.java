@@ -2,10 +2,10 @@ package commons;
 
 import java.util.List;
 import java.util.Set;
-
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -47,7 +47,7 @@ public class BasePage {
 	protected void forwardToPage(WebDriver driver) {
 		driver.navigate().forward();
 	}
-	protected void refreshCurrentPage(WebDriver driver) {
+	public void refreshCurrentPage(WebDriver driver) {
 		driver.navigate().refresh();
 	}
 	// Alert
@@ -130,11 +130,11 @@ public class BasePage {
 		return xpathLocator;
 	}
 	
-	private WebElement getWebElement(WebDriver driver, String xpathLocator) {
+	public WebElement getWebElement(WebDriver driver, String xpathLocator) {
 		return driver.findElement(By.xpath(xpathLocator));
 	}
 	
-	private List<WebElement> getListWebElement(WebDriver driver, String xpathLocator) {
+	public List<WebElement> getListWebElement(WebDriver driver, String xpathLocator) {
 		return driver.findElements(By.xpath(xpathLocator));
 	}
 	
@@ -194,7 +194,7 @@ public class BasePage {
 		}
 	}
 	
-	protected void sleepInSecond(long time) {
+	public void sleepInSecond(long time) {
 		try {
 			Thread.sleep(time * 1000);
 		} catch (InterruptedException e) {
@@ -266,12 +266,19 @@ public class BasePage {
 	protected void switchToDefaultContent(WebDriver driver) {
 		driver.switchTo().defaultContent();
 	}
-	
+	// Actions
 	protected void hoverMouseToElement(WebDriver driver, String xpathLocator) {
 		Actions action = new Actions(driver);
 		action.moveToElement(getWebElement(driver, xpathLocator)).perform();
 	}
-	
+	protected void pressKeyToElement(WebDriver driver, String xpathLocator, Keys key) {
+		Actions action = new Actions(driver);
+		action.sendKeys(getWebElement(driver, xpathLocator), key).perform();
+	}
+	protected void pressKeyToElement(WebDriver driver, String xpathLocator, Keys key, String... dynamicValues) {
+		Actions action = new Actions(driver);
+		action.sendKeys(getWebElement(driver, getDynamicXpath(xpathLocator, dynamicValues)), key).perform();
+	}
 	protected void scrollToBottomPage(WebDriver driver) {
 		JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
 		jsExecutor.executeScript("window.scrollBy(0,document.body.scrollHeight)");
@@ -450,7 +457,7 @@ public class BasePage {
 		return PageGeneratorManager.getAdminLoginPage(driver);
 		
 	}
-	public long longTimeout = 30;
+	public long longTimeout = GlobalConstants.LONG_TIMEOUT;
 
 	}
 

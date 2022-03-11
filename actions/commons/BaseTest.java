@@ -1,4 +1,4 @@
-package commons;
+ package commons;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -33,7 +33,26 @@ public class BaseTest {
 		driver.get(GlobalConstants.PORTAL_PAGE_URL);
 		return driver;
 	}
-
+	
+	protected WebDriver getBrowserDriver(String browserName, String appUrl) {
+		if(browserName.equals("firefox")) {
+			System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
+			driver = new FirefoxDriver();
+			} else if(browserName.equals("chrome")) {
+			System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
+			driver = new ChromeDriver();
+			} else if(browserName.equals("edge")) {
+			System.setProperty("webdriver.edge.driver", projectPath + "\\browserDrivers\\msedgedriver.exe.");
+			driver = new EdgeDriver();
+			} else if(browserName.equals("ie")) {
+			System.setProperty("webdriver.ie.driver", projectPath + "\\browserDrivers\\IEDriverServer.exe.");
+			driver = new InternetExplorerDriver();
+				throw new RuntimeException("Browser name invalid.");
+			}
+		driver.manage().timeouts().implicitlyWait(GlobalConstants.LONG_TIMEOUT, TimeUnit.SECONDS);
+		driver.get(appUrl);
+		return driver;
+	}
 	
 	protected int generateFakeNumber() {
 		Random rand = new Random();
