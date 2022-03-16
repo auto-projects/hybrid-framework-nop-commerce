@@ -1,7 +1,10 @@
 package commons;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -255,10 +258,39 @@ public class BasePage {
 				element.click();
 	}
 	}
-	protected boolean isElementDisplayed(WebDriver driver, String xpathLocator) {
+	public boolean isElementDisplayed(WebDriver driver, String xpathLocator) {
+		try {
 		return getWebElement(driver, xpathLocator).isDisplayed();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
-	protected boolean isElementDisplayed(WebDriver driver, String xpathLocator, String... dynamicValues) {
+	
+	public boolean isElementUndisplayed(WebDriver driver, String xpathLocator) {
+		System.out.println("Start time = " + new Date().toString());
+		overrideGlobalTimeout(driver, GlobalConstants.SHORT_TIMEOUT);
+		List<WebElement> elements = getListWebElement(driver, xpathLocator);
+		overrideGlobalTimeout(driver, GlobalConstants.LONG_TIMEOUT);
+		
+		if (elements.size() == 0) {
+			System.out.println("Element not in DOM");
+			System.out.println("End time = " + new Date().toString());
+			return true;
+		} else if (elements.size() > 0 && !elements.get(0).isDisplayed()) {
+				System.out.println("Element in DOM but not visible on UI");
+				System.out.println("End time = " + new Date().toString());
+				return true;
+		} else {
+				System.out.println("Element in DOM and visible on UI");
+				return false;
+		}
+	}
+	public void overrideGlobalTimeout(WebDriver driver, long timeout) {
+		driver.manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);		
+	}
+	
+	public boolean isElementDisplayed(WebDriver driver, String xpathLocator, String... dynamicValues) {
 		return getWebElement(driver, getDynamicXpath(xpathLocator, dynamicValues)).isDisplayed();
 	}
 	
