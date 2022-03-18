@@ -16,7 +16,7 @@ import org.testng.Reporter;
 
 public class BaseTest {
 	private WebDriver driver;
-	private final Log log;
+	protected final Log log;
 	protected BaseTest() {
 		log = LogFactory.getLog(getClass());
 	}
