@@ -87,11 +87,11 @@ public class BaseTest {
 	return pass;
 }
 
-protected boolean verifyTrue(boolean condition) {
+	protected boolean verifyTrue(boolean condition) {
 	return checkTrue(condition);
 }
 
-private boolean checkFailed(boolean condition) {
+	private boolean checkFailed(boolean condition) {
 	boolean pass = true;
 	try {
 		if (condition == false) {
@@ -108,11 +108,11 @@ private boolean checkFailed(boolean condition) {
 	return pass;
 }
 
-protected boolean verifyFalse(boolean condition) {
+	protected boolean verifyFalse(boolean condition) {
 	return checkFailed(condition);
 }
 
-private boolean checkEquals(Object actual, Object expected) {
+	private boolean checkEquals(Object actual, Object expected) {
 	boolean pass = true;
 	try {
 		Assert.assertEquals(actual, expected);
@@ -126,7 +126,13 @@ private boolean checkEquals(Object actual, Object expected) {
 	return pass;
 }
 
-protected boolean verifyEquals(Object actual, Object expected) {
+	protected boolean verifyEquals(Object actual, Object expected) {
 	return checkEquals(actual, expected);
 }
+	protected void cleanBrowserAndDriver() {
+		if (driver!= null) {
+			driver.manage().deleteAllCookies();
+			driver.quit();
+		}
+	}
 }
