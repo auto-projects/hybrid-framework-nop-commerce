@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 import commons.BaseTest;
 import pageObjects.facebook.PageGeneratorManager;
 import pageObjects.facebook.RegisterPageObject;
-import reportConfig.ExtentTestListener;
 
 public class Level_15_ExtentV3_Screenshot extends BaseTest {
 	WebDriver driver;
