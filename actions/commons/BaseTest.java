@@ -14,6 +14,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.testng.Assert;
 import org.testng.Reporter;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
 public class BaseTest {
@@ -160,20 +161,15 @@ public class BaseTest {
 		}
 	}
 
-	protected void cleanBrowserAndDriver() {
+	protected void cleanDriverInstance() {
 		String cmd = "";
 		try {
-			// Executable Driver
-			// Get ra tên OS và content qua chữ thường
 			String osName = System.getProperty("os.name").toLowerCase();
 			log.info("OS name = " + osName);
 
-			// Khai báo 1 biến Command Line để thực thi
-			
 			String driverInstanceName = driver.toString().toLowerCase();
 			log.info("Driver instance name = " + driverInstanceName);
 
-			// Quit driver executable file in Task Manager
 			if (driverInstanceName.contains("chrome")) {
 				if (osName.contains("window")) {
 					cmd = "taskkill /F /FI \"IMAGENAME eq chromedriver*\"";
@@ -207,23 +203,28 @@ public class BaseTest {
 					cmd = "pkill safaridriver";
 				}
 			}
+			System.out.println("Driver Instance = " + driver.toString());
+			
 			// Browser
-				if (driver != null) {
-				// IE Browser
+			if (driver != null) {
+				// IE browser
 				driver.manage().deleteAllCookies();
 				driver.quit();
-				}
+				System.out.println("Close Driver Instance");
+			}
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		} finally {
 			try {
 				Process process = Runtime.getRuntime().exec(cmd);
 				process.waitFor();
+				System.out.println("Run Command Line ");
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-}
+	}
+
 }

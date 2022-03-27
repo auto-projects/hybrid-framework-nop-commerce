@@ -54,7 +54,8 @@ public class Level_15_ReportNG_Screenshot extends BaseTest {
 	@AfterClass(alwaysRun = true)
 	public void cleanBrowser(String browserName) {
 		log.info("►►►►►►►►►► Close Browsers and Drivers ►►►►►►►►►►" + browserName + "'");
-		cleanBrowserAndDriver();
+		cleanDriverInstance();
+		driver.quit();
 		
 	}
 

@@ -1,5 +1,6 @@
 package reportConfig;
 
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -21,9 +22,13 @@ public class AllureTestListener extends BaseTest implements ITestListener {
 	
 	@Override
 	public void onTestFailure(ITestResult iTestResult) {
-		Object testClass = iTestResult.getInstance();
-		WebDriver driver = ((BaseTest) testClass).getDriverInstance();
-		saveScreenshotPNG(iTestResult.getName(), driver);
+		try {
+			Object testClass = iTestResult.getInstance();
+			WebDriver driver = ((BaseTest) testClass).getDriverInstance();
+			saveScreenshotPNG(iTestResult.getName(), driver);
+		} catch (NoSuchSessionException e) {
+			e.printStackTrace();
+		}
 
 	}
 	
