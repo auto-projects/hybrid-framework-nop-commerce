@@ -16,5 +16,4 @@ public class RegisterPageUI {
 	public static final String LOGOUT_LINK = "//a[@class='ico-logout']";
 	public static final String EXISTING_EMAIL_ERROR_MESSAGE = "//div[contains(@class,'message-error')]//li";
 	
-
 }

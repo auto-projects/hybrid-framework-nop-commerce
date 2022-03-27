@@ -27,6 +27,7 @@ import pageObjects.nopCommerce.user.UserMyProductReviewPageObject;
 import pageObjects.nopCommerce.user.UserRewardPointPageObject;
 import pageUIs.jQuery.uploadFile.BasePageJQueryUI;
 import pageUIs.nopCommerce.user.BasePageNopCommerceUI;
+import pageUIs.nopCommerce.user.RegisterPageUI;
 
 public class BasePage {
 
@@ -189,15 +190,16 @@ public class BasePage {
 		element.sendKeys(textValue);
 	}
 
-	protected void selectItemInDefaultDropdown(WebDriver driver, String xpathLocator, String textItem) {
+	protected void selectItemInDefaultDropdown(WebDriver driver, String xpathLocator, String itemText) {
 		Select select = new Select(getWebElement(driver, xpathLocator));
-		select.selectByVisibleText(textItem);
+		select.selectByVisibleText(itemText);
 	}
 
-	protected void selectItemInDefaultDropdown(WebDriver driver, String xpathLocator, String textItem,
+	// selectItemInDefaultDropdown(driver, BasePageNopCommerceUI.DYNAMIC_DROPDOWN_BY_NAME, itemText, dropdownName);
+	protected void selectItemInDefaultDropdown(WebDriver driver, String xpathLocator, String itemText,
 			String... dynamicValues) {
 		Select select = new Select(getWebElement(driver, getDynamicXpath(xpathLocator, dynamicValues)));
-		select.selectByVisibleText(textItem);
+		select.selectByVisibleText(itemText);
 	}
 
 	protected String getSelectedItemDefaultDropdown(WebDriver driver, String xpathLocator) {
@@ -581,6 +583,30 @@ public class BasePage {
 
 	}
 
+	// Pattern Object
+	public void enterToTextboxByID(WebDriver driver, String textboxID, String value) {
+		waitForElementVisible(driver, BasePageNopCommerceUI.DYNAMIC_TEXTBOX_BY_ID, textboxID);
+		sendkeyToElement(driver, BasePageNopCommerceUI.DYNAMIC_TEXTBOX_BY_ID, value, textboxID);
+	}
+
+	public void openHeaderPageByName(WebDriver driver, String pageName) {
+		waitForElementVisible(driver, BasePageNopCommerceUI.DYNAMIC_PAGE_HEADER, pageName);
+		clickToElement(driver, BasePageNopCommerceUI.DYNAMIC_TEXTBOX_BY_ID, pageName);
+	}
+
+	public void clickToRadioButtonByID(WebDriver driver, String radioButtonID) {
+		waitForElementClickable(driver, BasePageNopCommerceUI.DYNAMIC_RADIO_BUTTON_BY_ID, radioButtonID);
+		clickToElement(driver, BasePageNopCommerceUI.DYNAMIC_RADIO_BUTTON_BY_ID, radioButtonID);
+	}
+
+	public void selectDropDownByName(WebDriver driver, String dropdownName, String itemText) {
+		selectItemInDefaultDropdown(driver, BasePageNopCommerceUI.DYNAMIC_DROPDOWN_BY_NAME, itemText, dropdownName);
+	}
+
+	public void clickToButtonByText(WebDriver driver, String buttonByText) {
+		waitForElementClickable(driver, BasePageNopCommerceUI.DYNAMIC_BUTTON_BY_TEXT, buttonByText);
+		clickToElement(driver, BasePageNopCommerceUI.DYNAMIC_BUTTON_BY_TEXT, buttonByText);
+	}
 	public long longTimeout = GlobalConstants.LONG_TIMEOUT;
 
 }

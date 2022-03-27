@@ -34,5 +34,9 @@ public class UserHomePageObject extends BasePage {
 		clickToElement(driver, HomePageUI.MY_ACCOUNT_LINK);
 		return PageGeneratorManager.getUserCustomerInforPage(driver);		
 	}
+	public boolean isHomePageSliderDisplayed() {
+		waitForElementClickable(driver, HomePageUI.HOME_PAGE_SLIDER);
+		return isElementDisplayed(driver, HomePageUI.HOME_PAGE_SLIDER);
+	}
 
 }
