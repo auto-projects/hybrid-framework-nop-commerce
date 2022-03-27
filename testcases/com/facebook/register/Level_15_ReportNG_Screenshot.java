@@ -50,9 +50,12 @@ public class Level_15_ReportNG_Screenshot extends BaseTest {
 		Assert.assertFalse(registerPage.isLoginButtonUndisplayed());
 	}
 	
-	@AfterClass
-	public void cleanBrowser() {
-		driver.quit();
+	@Parameters({ "browser" })
+	@AfterClass(alwaysRun = true)
+	public void cleanBrowser(String browserName) {
+		log.info("►►►►►►►►►► Close Browsers and Drivers ►►►►►►►►►►" + browserName + "'");
+		cleanBrowserAndDriver();
+		
 	}
 
 	}
