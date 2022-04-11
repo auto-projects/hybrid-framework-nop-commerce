@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="SauceLab">
+
+	<parameter name="url" value="https://www.saucedemo.com/inventory.html" />
+
+  <test name="Run on Firefox">
+	<parameter name="browser" value="firefox"/>
+    	<classes>
+      		<class name="com.sort.Level_20_Sort"/>
+    </classes>
+  </test>
+</suite>
