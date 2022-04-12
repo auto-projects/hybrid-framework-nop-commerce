@@ -2,6 +2,7 @@ package commons;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -14,6 +15,8 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.safari.SafariDriver;
 import org.testng.Assert;
 import org.testng.Reporter;
@@ -72,6 +75,11 @@ public class BaseTest {
 		BROWSER browser = BROWSER.valueOf(browserName.toUpperCase());
 		if (browser == BROWSER.FIREFOX) {
 			WebDriverManager.firefoxdriver().setup();
+
+			System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE, "true");
+			System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, GlobalConstants.PROJECT_PATH
+					+ File.separator + "browserConsoleLogs" + File.separator + "Firefox.log");
+
 			driver = new FirefoxDriver();
 			System.out.println("Driver init at Base Test = " + driver.toString());
 		} else if (browser == BROWSER.CHROME) {
@@ -133,7 +141,7 @@ public class BaseTest {
 		} catch (Throwable e) {
 			pass = false;
 
-			// Add lỗi vào ReportNG
+			// Add lá»—i vÃ o ReportNG
 			VerificationFailures.getFailures().addFailureForTest(Reporter.getCurrentTestResult(), e);
 			Reporter.getCurrentTestResult().setThrowable(e);
 		}
@@ -265,4 +273,14 @@ public class BaseTest {
 		}
 	}
 
+	protected void showBrowserConsoleLogs(WebDriver driver) {
+		if (driver.toString().contains("chrome")) {
+			LogEntries logs = driver.manage().logs().get("browser");
+			List<LogEntry> logList = logs.getAll();
+			for (LogEntry logging : logList) {
+				System.out.println("►►►►►►►►►►►►►►► " + logging.getLevel().toString() + " ►►►►►►►►►►►►►►► \n"
+						+ logging.getMessage());
+			}
+		}
+	}
 }
