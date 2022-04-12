@@ -12,7 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-
+import org.openqa.selenium.safari.SafariDriver;
 import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeSuite;
@@ -56,6 +56,9 @@ public class BaseTest {
 			WebDriverManager.iedriver().setup();
 			driver = new InternetExplorerDriver();
 			System.out.println("Driver init at Base Test = " + driver.toString());
+		} else if (browser == BROWSER.SAFARI) {
+			driver = new SafariDriver();
+			System.out.println("Driver init at Base Test = " + driver.toString());
 		} else {
 			throw new RuntimeException("PLEASE ENTER A CORRECT BROWSER NAME!!!");
 		}
@@ -66,19 +69,28 @@ public class BaseTest {
 	}
 
 	protected WebDriver getBrowserDriver(String browserName, String appUrl) {
-		if (browserName.equals("firefox")) {
-			System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
+		BROWSER browser = BROWSER.valueOf(browserName.toUpperCase());
+		if (browser == BROWSER.FIREFOX) {
+			WebDriverManager.firefoxdriver().setup();
 			driver = new FirefoxDriver();
-		} else if (browserName.equals("chrome")) {
-			System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
+			System.out.println("Driver init at Base Test = " + driver.toString());
+		} else if (browser == BROWSER.CHROME) {
+			WebDriverManager.chromedriver().setup();
 			driver = new ChromeDriver();
-		} else if (browserName.equals("edge")) {
-			System.setProperty("webdriver.edge.driver", projectPath + "\\browserDrivers\\msedgedriver.exe.");
+			System.out.println("Driver init at Base Test = " + driver.toString());
+		} else if (browser == BROWSER.EDGE_CHROMIUM) {
+			WebDriverManager.edgedriver().setup();
 			driver = new EdgeDriver();
-		} else if (browserName.equals("ie")) {
-			System.setProperty("webdriver.ie.driver", projectPath + "\\browserDrivers\\IEDriverServer.exe.");
+			System.out.println("Driver init at Base Test = " + driver.toString());
+		} else if (browser == BROWSER.IE) {
+			WebDriverManager.iedriver().setup();
 			driver = new InternetExplorerDriver();
-			throw new RuntimeException("Browser name invalid.");
+			System.out.println("Driver init at Base Test = " + driver.toString());
+		} else if (browser == BROWSER.SAFARI) {
+			driver = new SafariDriver();
+			System.out.println("Driver init at Base Test = " + driver.toString());
+		} else {
+			throw new RuntimeException("PLEASE ENTER A CORRECT BROWSER NAME!!!");
 		}
 		driver.manage().timeouts().implicitlyWait(GlobalConstants.LONG_TIMEOUT, TimeUnit.SECONDS);
 		driver.get(appUrl);
