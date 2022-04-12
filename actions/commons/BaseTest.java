@@ -9,8 +9,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.testng.Assert;
@@ -35,8 +37,6 @@ public class BaseTest {
 	private enum BROWSER {
 		CHROME, FIREFOX, IE, SAFARI, EDGE_LEGACY, EDGE_CHROMIUM, H_CHROME, H_FIREFOX;
 	}
-
-	private String projectPath = System.getProperty("user.dir");
 
 	protected WebDriver getBrowserDriver(String browserName) {
 		BROWSER browser = BROWSER.valueOf(browserName.toUpperCase());
@@ -88,6 +88,20 @@ public class BaseTest {
 			System.out.println("Driver init at Base Test = " + driver.toString());
 		} else if (browser == BROWSER.SAFARI) {
 			driver = new SafariDriver();
+			System.out.println("Driver init at Base Test = " + driver.toString());
+		} else if (browser == BROWSER.H_CHROME) {
+			WebDriverManager.chromedriver().setup();
+			ChromeOptions options = new ChromeOptions();
+			options.setHeadless(true);
+			options.addArguments("window-size=1920x1080");
+			driver = new ChromeDriver(options);
+			System.out.println("Driver init at Base Test = " + driver.toString());
+		} else if (browser == BROWSER.H_FIREFOX) {
+			WebDriverManager.firefoxdriver().setup();
+			FirefoxOptions options = new FirefoxOptions();
+			options.setHeadless(true);
+			options.addArguments("window-size=1920x1080");
+			driver = new FirefoxDriver(options);
 			System.out.println("Driver init at Base Test = " + driver.toString());
 		} else {
 			throw new RuntimeException("PLEASE ENTER A CORRECT BROWSER NAME!!!");
