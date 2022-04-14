@@ -29,13 +29,14 @@ public class Level_19_Fake_Data extends BaseTest {
 	public void beforeClass(String browserName, String appUrl) {
 		log.info("Pre-Condition - Step 01: Open browser '" + browserName + "' and navigate to '" + appUrl + "'");
 		driver = getBrowserDriver(browserName, appUrl);
+		
 		loginPage = PageGenerator.getLoginPage(driver);
 		fakeData = DataUtil.getData();
 
 		statusValue = "Enabled";
 		adminUserName = "Admin";
 		adminPassword = "admin123";
-		
+
 		employeeFirstName = fakeData.getFirstName();
 		employeeLastName = fakeData.getLastName();
 		employeeUserName = fakeData.getUsername();
@@ -44,7 +45,7 @@ public class Level_19_Fake_Data extends BaseTest {
 
 		editEmpFirstName = fakeData.getEditFirstName();
 		editEmpLastName = fakeData.getEditLastName();
-		
+
 		editEmpGender = "Female";
 		editEmpMaritalStatus = "Single";
 		editEmpNationality = "Vietnamese";
@@ -362,11 +363,10 @@ public class Level_19_Fake_Data extends BaseTest {
 	}
 
 	@Parameters({ "browser" })
-	@AfterClass(alwaysRun = true)
-	public void cleanBrowser(String browserName) {
-		log.info("►►►►►►►►►► Close Browsers and Drivers ►►►►►►►►►►" + browserName + "'");
+	@AfterClass()
+	public void cleanBrowser() {
+		log.info("►►►►►►►►►► Close Browsers and Drivers ►►►►►►►►►►");
 		cleanDriverInstance();
-		driver.quit();
 	}
 
 	WebDriver driver;

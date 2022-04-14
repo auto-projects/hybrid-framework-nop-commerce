@@ -31,6 +31,8 @@ public class BaseTest {
 	@BeforeSuite
 	public void initBeforeSuite() {
 		deleteAllureReportFileInFolder();
+		deleteReportNGScreenshotsFolder();
+
 	}
 
 	protected BaseTest() {
@@ -41,6 +43,10 @@ public class BaseTest {
 		CHROME, FIREFOX, IE, SAFARI, EDGE_LEGACY, EDGE_CHROMIUM, H_CHROME, H_FIREFOX;
 	}
 
+	private enum ENVIRONMENT {
+		PRODUCTION, STAGING, DEV, TESTING;
+	}
+
 	protected WebDriver getBrowserDriver(String browserName) {
 		BROWSER browser = BROWSER.valueOf(browserName.toUpperCase());
 		if (browser == BROWSER.FIREFOX) {
@@ -49,6 +55,10 @@ public class BaseTest {
 			System.out.println("Driver init at Base Test = " + driver.toString());
 		} else if (browser == BROWSER.CHROME) {
 			WebDriverManager.chromedriver().setup();
+			
+//			ChromeOptions options = new ChromeOptions();
+//			options.addExtensions(new File(GlobalConstants.PROJECT_PATH + "\\browserExtensions\\UltraSuft"));
+//			
 			driver = new ChromeDriver();
 			System.out.println("Driver init at Base Test = " + driver.toString());
 		} else if (browser == BROWSER.EDGE_CHROMIUM) {
@@ -67,6 +77,7 @@ public class BaseTest {
 		}
 
 		driver.manage().timeouts().implicitlyWait(GlobalConstants.LONG_TIMEOUT, TimeUnit.SECONDS);
+		driver.manage().window().maximize();
 		driver.get(GlobalConstants.PORTAL_PAGE_URL);
 		return driver;
 	}
@@ -84,6 +95,10 @@ public class BaseTest {
 			System.out.println("Driver init at Base Test = " + driver.toString());
 		} else if (browser == BROWSER.CHROME) {
 			WebDriverManager.chromedriver().setup();
+			
+//			ChromeOptions options = new ChromeOptions();
+//			options.addExtensions(new File(GlobalConstants.PROJECT_PATH + "\\browserExtensions\\UltraSuft"));
+//			
 			driver = new ChromeDriver();
 			System.out.println("Driver init at Base Test = " + driver.toString());
 		} else if (browser == BROWSER.EDGE_CHROMIUM) {
@@ -116,7 +131,25 @@ public class BaseTest {
 		}
 		driver.manage().timeouts().implicitlyWait(GlobalConstants.LONG_TIMEOUT, TimeUnit.SECONDS);
 		driver.get(appUrl);
+//		driver.get(getEnvironmentValue(appUrl));
+		driver.manage().window().maximize();
 		return driver;
+	}
+
+	private String getEnvironmentValue(String environmentName) {
+		String envUrl = null;
+		ENVIRONMENT environment = ENVIRONMENT.valueOf(environmentName.toUpperCase());
+		if (environment == ENVIRONMENT.PRODUCTION) {
+			envUrl = "https://";
+		} else if (environment == ENVIRONMENT.STAGING) {
+			envUrl = "https://";
+		} else if (environment == ENVIRONMENT.DEV) {
+			envUrl = "https://";
+		} else if (environment == ENVIRONMENT.TESTING) {
+			envUrl = "https://";
+		}
+		System.out.println(envUrl);
+		return envUrl;
 	}
 
 	public WebDriver getDriverInstance() {
@@ -194,6 +227,22 @@ public class BaseTest {
 	public void deleteAllureReportFileInFolder() {
 		try {
 			String pathFolderDownload = GlobalConstants.PROJECT_PATH + "/allure-json";
+			File file = new File(pathFolderDownload);
+			File[] listOfFiles = file.listFiles();
+			for (int i = 0; i < listOfFiles.length; i++) {
+				if (listOfFiles[i].isFile()) {
+					System.out.println(listOfFiles[i].getName());
+					new File(listOfFiles[i].toString()).delete();
+				}
+			}
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+		}
+	}
+
+	public void deleteReportNGScreenshotsFolder() {
+		try {
+			String pathFolderDownload = GlobalConstants.PROJECT_PATH + "/reportNGScreenshots";
 			File file = new File(pathFolderDownload);
 			File[] listOfFiles = file.listFiles();
 			for (int i = 0; i < listOfFiles.length; i++) {

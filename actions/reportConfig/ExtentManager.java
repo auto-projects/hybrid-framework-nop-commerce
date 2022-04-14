@@ -9,17 +9,17 @@ import commons.GlobalConstants;
 		public static final ExtentReports extentReports = new ExtentReports();
 
 		public synchronized static ExtentReports createExtentReports() {
-			ExtentSparkReporter reporter = new ExtentSparkReporter(GlobalConstants.PROJECT_PATH + "/extentV5/ExtentReport.html");
-			reporter.config().setReportName("Facebook HTML Report");
-			reporter.config().setDocumentTitle("Facebook HTML Report");
+			ExtentSparkReporter reporter = new ExtentSparkReporter(GlobalConstants.PROJECT_PATH + "/report-ExtentV5/ExtentReport.html");
+			reporter.config().setReportName("HRM HTML Report");
+			reporter.config().setDocumentTitle("HRM HTML Report");
 			reporter.config().setTimelineEnabled(true);
 			reporter.config().setEncoding("utf-8");
 			reporter.config().setTheme(Theme.DARK);
 
 			extentReports.attachReporter(reporter);
 			extentReports.setSystemInfo("Company", "Automation FC");
-			extentReports.setSystemInfo("Project", "NopCommerce");
-			extentReports.setSystemInfo("Team", "Basus VN");
+			extentReports.setSystemInfo("Project", "HRM");
+			extentReports.setSystemInfo("Team", "QA Yuna");
 			extentReports.setSystemInfo("JDK version", GlobalConstants.JAVA_VERSION);
 			return extentReports;
 		}
