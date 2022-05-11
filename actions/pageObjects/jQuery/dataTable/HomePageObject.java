@@ -1,7 +1,6 @@
 package pageObjects.jQuery.dataTable;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.openqa.selenium.Keys;
@@ -45,7 +44,7 @@ public class HomePageObject  extends BasePage {
 			clickToElement(driver, HomePageUI.PAGINATIONS_PAGE_BY_INDEX, String.valueOf(index));
 			sleepInSecond(2);
 			
-		// Get text của all rơ mỗi page	đưa vào ArrayList
+		// Get text của all rows mỗi page	đưa vào ArrayList
 		List<WebElement> allRowsElementEachPage = getListWebElement(driver, HomePageUI.ALL_ROWS_EACH_PAGE);
 		for (WebElement eachRow : allRowsElementEachPage) {
 			allRowValuesAllPages.add(eachRow.getText());

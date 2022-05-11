@@ -29,4 +29,5 @@ public class MyInfoPO extends BasePage {
 		waitForElementClickable(driver, MyInfoPageUI.TAB_LINK_AT_SIDEBAR, tabName);
 		clickToElement(driver, MyInfoPageUI.TAB_LINK_AT_SIDEBAR, tabName);
 	}
+
 }

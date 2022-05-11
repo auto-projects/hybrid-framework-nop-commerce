@@ -1,5 +1,6 @@
 package commons;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -699,6 +700,11 @@ public class BasePage {
 		sendkeyToElement(driver, BasePageUI.TEXTBOX_BY_ID, value, textboxIDName);
 
 	}
+	public void enterADateToTextboxByID(WebDriver driver, String textboxIDName, Date dependentDOB) {
+		waitForElementVisible(driver, BasePageUI.TEXTBOX_BY_ID, textboxIDName);
+		sendkeyToElement(driver, BasePageUI.TEXTBOX_BY_ID, textboxIDName);
+
+	}
 
 	/**
 	 * Get textbox value by textbox id
@@ -814,6 +820,45 @@ public class BasePage {
 	public boolean isFieldEnabledByName(WebDriver driver, String filedID) {
 		waitForElementVisible(driver, BasePageUI.ANY_FIELD_BY_ID, filedID);
 		return isElementEnabled(driver, BasePageUI.ANY_FIELD_BY_ID, filedID);
+
+	}
+
+	public List<String> getAllValuesOfEachRowInTable(WebDriver driver) {
+		List<String> allRowValues = new ArrayList<String>();
+		List<WebElement> allRowsElement = getListWebElement(driver, BasePageUI.ALL_ROWS_EACH_PAGE);
+		for (WebElement eachRow : allRowsElement) {
+			allRowValues.add(eachRow.getText());
+		}
+		// In tất cả giá trị row ra
+		for (String value : allRowValues) {
+			System.out.println("►►►►►►►►►►►►►►►►►►►►►►►►►►►►►►►►");
+			System.out.println(value);
+		}
+		return allRowValues;
+
+	}
+
+	public boolean getAllValuesInDropdownList(WebDriver driver, String... dynamicValues) {
+		waitForElementClickable(driver, BasePageUI.BLOOD_TYPE_DROPDOWN);
+		clickToElement(driver, BasePageUI.BLOOD_TYPE_DROPDOWN);
+
+		List<WebElement> nameElements = getListWebElement(driver, BasePageUI.BLOOD_TYPE_DROPDOWN);
+
+		List<String> nameValues = new ArrayList<String>();
+
+		for (WebElement name : nameElements) {
+			nameValues.add(name.getText());
+		}
+		List<String> nameValuesClone = new ArrayList<String>();
+		for (String profileList : nameValues) {
+			nameValuesClone.add(profileList);
+		}
+		System.out.println("►►►►►►►►►►►►►►►►►►►►►►►►►►►►►►");
+		for (String profileList : nameValuesClone) {
+			System.out.println(profileList);
+		}
+
+		return nameValues.equals(nameValuesClone);
 
 	}
 

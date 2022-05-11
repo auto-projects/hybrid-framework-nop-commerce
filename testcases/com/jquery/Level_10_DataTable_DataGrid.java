@@ -26,7 +26,7 @@ public class Level_10_DataTable_DataGrid extends BaseTest {
 				
 	 }
 
-	//@Test
+	@Test
 	public void Table_01_Paging() {
 		homePage.openPagingByPageNumber("10");
 		homePage.sleepInSecond(1);
@@ -49,7 +49,7 @@ public class Level_10_DataTable_DataGrid extends BaseTest {
 		Assert.assertTrue(homePage.isPageNumberActived("1"));
 		}
 	
-	//@Test
+	@Test
 	public void Table_02_Enter_To_Header() {
 		homePage.refreshCurrentPage(driver);
 		
@@ -64,17 +64,17 @@ public class Level_10_DataTable_DataGrid extends BaseTest {
 		homePage.enterToHeaderTextboxByLabel("Total", "553353");
 		homePage.sleepInSecond(3);
 		}
-	//@Test
+	@Test
 	public void Table_03_Enter_To_Header() {
 		homePage.refreshCurrentPage(driver);
 		
 		homePage.getValueEachRowAtAllPages();
 	}
-	//@Test
+	@Test
 	public void Table_04_Action_At_Any_Row() {
 		// Value để nhập liệu : tham số 1
 		// Row number: tại row nào
-		// Exp: Nhập v ào textbox tại dòng số 3/5/2...
+		// Exp: Nhập vào textbox tại dòng số 3/5/2...
 		// Column name: 
 		homePage.enterToTextboxAtRowNumberByColumnName("Album", "1", "Michael 97");
 		homePage.enterToTextboxAtRowNumberByColumnName("Artist", "1", "Michael Jackson");
