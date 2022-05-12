@@ -18,6 +18,7 @@ public class BasePageUI {
 	public static final String BLOOD_TYPE_DROPDOWN = "//select[@class='editable']";
 	
 	
+	
 	// Hard Locator
 	public static final String WELCOME_USER_LINK = "//a[@id='welcome']";
 	public static final String LOGOUT_LINK = "//div[@id='welcome-menu']//a[text()='Logout']";

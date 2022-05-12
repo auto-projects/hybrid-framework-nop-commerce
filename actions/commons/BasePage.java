@@ -861,6 +861,29 @@ public class BasePage {
 		return nameValues.equals(nameValuesClone);
 
 	}
+	public boolean getAllValuesInDropdownByID(WebDriver driver, String dropdownByID, String... dynamicValues) {
+		waitForElementClickable(driver, BasePageUI.DROPDOWN_BY_ID, dropdownByID);
+		clickToElement(driver, BasePageUI.DROPDOWN_BY_ID, dropdownByID);
+
+		List<WebElement> nameElements = getListWebElement(driver, BasePageUI.DROPDOWN_BY_ID, dropdownByID);
+
+		List<String> nameValues = new ArrayList<String>();
+
+		for (WebElement name : nameElements) {
+			nameValues.add(name.getText());
+		}
+		List<String> nameValuesClone = new ArrayList<String>();
+		for (String profileList : nameValues) {
+			nameValuesClone.add(profileList);
+		}
+		System.out.println("►►►►►►►►►►►►►►►►►►►►►►►►►►►►►►");
+		for (String profileList : nameValuesClone) {
+			System.out.println(profileList);
+		}
+
+		return nameValues.equals(nameValuesClone);
+
+	}
 
 	public long longTimeout = GlobalConstants.LONG_TIMEOUT;
 
