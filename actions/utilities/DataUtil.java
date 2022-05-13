@@ -86,5 +86,8 @@ public class DataUtil {
 	public Date getYYYYMMDD() {
 		return faker.date().birthday();
 	}
+	public String getCompanyName() {
+		return faker.company().name();
+	}
 
 }

@@ -47,7 +47,13 @@ public class Level_19_Fake_Data extends BaseTest {
 
 	// Tax Exemptions
 	String federalStatus, federalExemptions, taxState, stateStatus, tateExemptions, unempState, workState;
-
+	
+	// Qualifications
+	String companyName, eduCode, eduInstitue, eduMajor, eduYear, eduGPA;
+	
+	// Memeberships
+	String membership, subscriptionPaidBy, subscriptionAmount, currency;
+	
 	String avatarFilePath = GlobalConstants.UPLOAD_FILE + "Dedo.jpg";
 	String attachmentFilePath = GlobalConstants.UPLOAD_FILE + "airbus320.jpg";
 	String contractFilePath = GlobalConstants.UPLOAD_FILE + "Yunxi_Yi.jpg";
@@ -125,7 +131,21 @@ public class Level_19_Fake_Data extends BaseTest {
 		tateExemptions = "";
 		unempState = "";
 		workState = "";
-
+		
+		// Qualifications
+		companyName = fakeData.getCompanyName();
+		eduCode = "";
+		eduInstitue = "";
+		eduMajor = "";
+		eduYear = "1991";
+		eduGPA = "";
+		
+		// Memeberships
+		membership = "";
+		subscriptionPaidBy = "";
+		subscriptionAmount = "";
+		currency =  "";
+		
 		log.info("Pre-Condition - Step 02: Login with Admin Role '");
 		dashboardPage = loginPage.loginToSystem(driver, adminUserName, adminPassword);
 	}
@@ -136,35 +156,35 @@ public class Level_19_Fake_Data extends BaseTest {
 		dashboardPage.openSubMenuPage(driver, "PIM", "Employee List");
 		employeeListPage = PageGenerator.getEmployeeListPage(driver);
 
-		log.info("Add_New_01 - Step 02: Click to 'Add' button");
+		log.info("Add_New_01 - Step 02: Click on 'Add' button");
 		employeeListPage.clickToButtonByID(driver, "btnAdd");
 		addEmployeePage = PageGenerator.getAddEmployeePage(driver);
 
-		log.info("Add_New_01 - Step 03: Enter valid info to 'First Name' textbox");
+		log.info("Add_New_01 - Step 03: Enter valid info in 'First Name' textbox");
 		addEmployeePage.enterToTextboxByID(driver, "firstName", employeeFirstName);
 
-		log.info("Add_New_01 - Step 04: Enter valid info to 'Last Name' textbox");
+		log.info("Add_New_01 - Step 04: Enter valid info in 'Last Name' textbox");
 		addEmployeePage.enterToTextboxByID(driver, "lastName", employeeLastName);
 
-		log.info("Add_New_01 - Step 05: Get value of 'Employee ID' ");
+		log.info("Add_New_01 - Step 05: Get value of 'Employee ID' textbox");
 		employeeID = addEmployeePage.getTextboxValueByID(driver, "employeeId");
 
-		log.info("Add_New_01 - Step 06: Click to 'Create Login Details' checkbox");
+		log.info("Add_New_01 - Step 06: Click on 'Create Login Details' checkbox");
 		addEmployeePage.clickToCheckboxByLabel(driver, "Create Login Details");
 
-		log.info("Add_New_01 - Step 07: Enter valid info to 'User Name' textbox");
+		log.info("Add_New_01 - Step 07: Enter valid info in 'User Name' textbox");
 		addEmployeePage.enterToTextboxByID(driver, "user_name", employeeUserName);
 
-		log.info("Add_New_01 - Step 08: Enter valid info to 'Password' textbox");
+		log.info("Add_New_01 - Step 08: Enter valid info in 'Password' textbox");
 		addEmployeePage.enterToTextboxByID(driver, "user_password", employeePassword);
 
-		log.info("Add_New_01 - Step 09: Enter valid info to 'Confirm Password' textbox");
+		log.info("Add_New_01 - Step 09: Enter valid info in 'Confirm Password' textbox");
 		addEmployeePage.enterToTextboxByID(driver, "re_password", employeePassword);
 
 		log.info("Add_New_01 - Step 10: Select ' " + statusValue + " ' value in 'Status' dropdown");
 		addEmployeePage.selectItemInDropdownByID(driver, "status", statusValue);
 
-		log.info("Add_New_01 - Step 11: Click to 'Save' button");
+		log.info("Add_New_01 - Step 11: Click on 'Save' button");
 		addEmployeePage.clickToButtonByID(driver, "btnSave");
 		myInfoPage = PageGenerator.getMyInfoPage(driver);
 
@@ -172,12 +192,12 @@ public class Level_19_Fake_Data extends BaseTest {
 		myInfoPage.openSubMenuPage(driver, "PIM", "Employee List");
 		employeeListPage = PageGenerator.getEmployeeListPage(driver);
 
-		log.info("Add_New_01 - Step 13: Enter valid info to 'Employee Name' textbox");
+		log.info("Add_New_01 - Step 13: Enter valid info in 'Employee Name' textbox");
 		verifyTrue(employeeListPage.isJQueryAjaxLoadedSuccess(driver));
 		employeeListPage.enterToTextboxByID(driver, "empsearch_employee_name_empName", employeeFullName);
 		verifyTrue(employeeListPage.areJQueryAndJSLoadedSuccess(driver));
 
-		log.info("Add_New_01 - Step 14: Click to 'Search' button");
+		log.info("Add_New_01 - Step 14: Click on 'Search' button");
 		employeeListPage.clickToButtonByID(driver, "searchBtn");
 		verifyTrue(employeeListPage.isJQueryAjaxLoadedSuccess(driver));
 
@@ -201,7 +221,7 @@ public class Level_19_Fake_Data extends BaseTest {
 		dashboardPage.openMenuPage(driver, "My Info");
 		myInfoPage = PageGenerator.getMyInfoPage(driver);
 
-		log.info("Upload_Avatar_02 - Step 03: Click to Change Photo Image");
+		log.info("Upload_Avatar_02 - Step 03: Click on Change Photo Image");
 		myInfoPage.clickToChangePhotoImage();
 
 		log.info("Upload_Avatar_02 - Step 04: Upload New Avatar Image");
@@ -240,7 +260,7 @@ public class Level_19_Fake_Data extends BaseTest {
 		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "personal_chkSmokeFlag"));
 		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "personal_txtMilitarySer"));
 
-		log.info("Personal Details_03 - Step 03: Click to 'Edit' Button at 'Personal Details' ");
+		log.info("Personal Details_03 - Step 03: Click on 'Edit' Button at 'Personal Details' ");
 		myInfoPage.clickToButtonByID(driver, "btnSave");
 
 		log.info("Personal Details_03 - Step 04: Verify 'Employee ID' textbox is disabled"); // 1
@@ -258,19 +278,19 @@ public class Level_19_Fake_Data extends BaseTest {
 		log.info("Personal Details_03 - Step 08: Verify 'Date of Birth' textbox is disabled"); // 5
 		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "personal_DOB"));
 
-		log.info("Personal Details_03 - Step 09: Enter new value to 'First Name' textbox");
+		log.info("Personal Details_03 - Step 09: Enter new value in 'First Name' textbox");
 		myInfoPage.enterToTextboxByID(driver, "personal_txtEmpFirstName", editEmpFirstName);
 
-		log.info("Personal Details_03 - Step 10: Enter new value to 'Last Name' textbox");
+		log.info("Personal Details_03 - Step 10: Enter new value in 'Last Name' textbox");
 		myInfoPage.enterToTextboxByID(driver, "personal_txtEmpLastName", editEmpLastName);
 
-		log.info("Personal Details_03 - Step 11: Select new value to 'Gender' radio button");
+		log.info("Personal Details_03 - Step 11: Select new value from 'Gender' radio button");
 		myInfoPage.clickToRadioByLabel(driver, editEmpGender);
 
-		log.info("Personal Details_03 - Step 12: Select new value to 'Marital Status' dropdown");
+		log.info("Personal Details_03 - Step 12: Select new value from 'Marital Status' dropdown");
 		myInfoPage.selectItemInDropdownByID(driver, "personal_cmbMarital", editEmpMaritalStatus);
 
-		log.info("Personal Details_03 - Step 13: Select new value to 'Nationality' dropdown");
+		log.info("Personal Details_03 - Step 13: Select new value from 'Nationality' dropdown");
 		myInfoPage.selectItemInDropdownByID(driver, "personal_cmbNation", editEmpNationality);
 
 		log.info("Personal Details_03 - Step 14: Click on 'Save' button at 'Personal Details' form");
@@ -314,7 +334,7 @@ public class Level_19_Fake_Data extends BaseTest {
 		myInfoPage.isJQueryAjaxLoadedSuccess(driver);
 
 		log.info("Personal Details_03 - Step 27: Verify Success Message is Displayed");
-		verifyTrue(myInfoPage.isSuccessMessageDisplayed(driver, "Successfully Updated"));
+		verifyTrue(myInfoPage.isSuccessMessageDisplayed(driver, "Successfully Saved"));
 
 		log.info("Personal Details_03 - Step 28: Verify new attachment is uploaded");
 		verifyEquals(myInfoPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "tblAttachments", "File Name", "1"),
@@ -332,7 +352,6 @@ public class Level_19_Fake_Data extends BaseTest {
 		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "contact_street2"));
 		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "contact_city"));
 		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "contact_province"));
-
 		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "contact_emp_zipcode"));
 		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "contact_country"));
 		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "contact_emp_hm_telephone"));
@@ -341,40 +360,40 @@ public class Level_19_Fake_Data extends BaseTest {
 		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "contact_emp_work_email"));
 		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "contact_emp_oth_email"));
 
-		log.info("Contact_Details_04 - Step 03: Click to 'Edit' Button at 'Contact Details' ");
+		log.info("Contact_Details_04 - Step 03: Click on 'Edit' Button at 'Contact Details' ");
 		myInfoPage.clickToButtonByID(driver, "btnSave");
 
-		log.info("Contact_Details_04 - Step 04: Enter new value to 'Address Street 1' textbox");
+		log.info("Contact_Details_04 - Step 04: Enter new value in 'Address Street 1' textbox");
 		myInfoPage.enterToTextboxByID(driver, "contact_street1", addressStreet1);
 
-		log.info("Contact_Details_04 - Step 05: Enter new value to 'Address Street 2' textbox");
+		log.info("Contact_Details_04 - Step 05: Enter new value in 'Address Street 2' textbox");
 		myInfoPage.enterToTextboxByID(driver, "contact_street2", addressStreet2);
 
-		log.info("Contact_Details_04 - Step 06: Enter new value to 'City' textbox");
+		log.info("Contact_Details_04 - Step 06: Enter new value in 'City' textbox");
 		myInfoPage.enterToTextboxByID(driver, "contact_city", city);
 
-		log.info("Contact_Details_04 - Step 07: Enter new value to 'State/Province' textbox");
+		log.info("Contact_Details_04 - Step 07: Enter new value in 'State/Province' textbox");
 		myInfoPage.enterToTextboxByID(driver, "contact_province", stateProvince);
 
-		log.info("Contact_Details_04 - Step 08: Enter new value to 'Zip/Postal Code' textbox");
+		log.info("Contact_Details_04 - Step 08: Enter new value in 'Zip/Postal Code' textbox");
 		myInfoPage.enterToTextboxByID(driver, "contact_emp_zipcode", zipPostalCode);
 
 		log.info("Contact_Details_04 - Step 09: Select new value to 'Country' dropdown");
 		myInfoPage.selectItemInDropdownByID(driver, "contact_country", country);
 
-		log.info("Contact_Details_04 - Step 10: Enter new value to 'Home Telephone' textbox");
+		log.info("Contact_Details_04 - Step 10: Enter new value in 'Home Telephone' textbox");
 		myInfoPage.enterToTextboxByID(driver, "contact_emp_hm_telephone", homeTelephone);
 
-		log.info("Contact_Details_04 - Step 11: Enter new value to 'Mobile' textbox");
+		log.info("Contact_Details_04 - Step 11: Enter new value in 'Mobile' textbox");
 		myInfoPage.enterToTextboxByID(driver, "contact_emp_mobile", mobile);
 
-		log.info("Contact_Details_04 - Step 12: Enter new value to 'Work Telephone' textbox");
+		log.info("Contact_Details_04 - Step 12: Enter new value in 'Work Telephone' textbox");
 		myInfoPage.enterToTextboxByID(driver, "contact_emp_work_telephone", workTelephone);
 
-		log.info("Contact_Details_04 - Step 13: Enter new value to 'Work Email' textbox");
+		log.info("Contact_Details_04 - Step 13: Enter new value in 'Work Email' textbox");
 		myInfoPage.enterToTextboxByID(driver, "contact_emp_work_email", workEmail);
 
-		log.info("Contact_Details_04 - Step 14: Enter new value to 'Other Email' textbox");
+		log.info("Contact_Details_04 - Step 14: Enter new value in 'Other Email' textbox");
 		myInfoPage.enterToTextboxByID(driver, "contact_emp_oth_email", otherEmail);
 
 		log.info("Contact_Details_04 - Step 15: Click on 'Save' button at 'Contact Details' form");
@@ -433,19 +452,19 @@ public class Level_19_Fake_Data extends BaseTest {
 		verifyTrue(myInfoPage.isFieldEnabledByName(driver, "emgcontacts_mobilePhone"));
 		verifyTrue(myInfoPage.isFieldEnabledByName(driver, "emgcontacts_workPhone"));
 
-		log.info("Emergency_Contacts_05 - Step 04: Enter new value to 'Name' textbox");
+		log.info("Emergency_Contacts_05 - Step 04: Enter new value in 'Name' textbox");
 		myInfoPage.enterToTextboxByID(driver, "emgcontacts_name", emerName);
 
-		log.info("Emergency_Contacts_05 - Step 05: Enter new value to 'Relationship' textbox");
+		log.info("Emergency_Contacts_05 - Step 05: Enter new value in 'Relationship' textbox");
 		myInfoPage.enterToTextboxByID(driver, "emgcontacts_relationship", emerRela);
 
-		log.info("Emergency_Contacts_05 - Step 06: Enter new value to 'Home Telephone' textbox");
+		log.info("Emergency_Contacts_05 - Step 06: Enter new value in 'Home Telephone' textbox");
 		myInfoPage.enterToTextboxByID(driver, "emgcontacts_homePhone", emerHomeTel);
 
-		log.info("Emergency_Contacts_05 - Step 07: Enter new value to 'Mobile' textbox");
+		log.info("Emergency_Contacts_05 - Step 07: Enter new value in 'Mobile' textbox");
 		myInfoPage.enterToTextboxByID(driver, "emgcontacts_mobilePhone", emerMobile);
 
-		log.info("Emergency_Contacts_05 - Step 08: Enter new value to 'Work Telephone' textbox");
+		log.info("Emergency_Contacts_05 - Step 08: Enter new value in 'Work Telephone' textbox");
 		myInfoPage.enterToTextboxByID(driver, "emgcontacts_workPhone", emerWorkTel);
 
 		log.info("Emergency_Contacts_05 - Step 09: Click on 'Save' button at 'Add Emergency Contact' form");
@@ -495,19 +514,18 @@ public class Level_19_Fake_Data extends BaseTest {
 		verifyTrue(myInfoPage.isFieldEnabledByName(driver, "dependent_relationshipType"));
 		verifyTrue(myInfoPage.isFieldEnabledByName(driver, "dependent_dateOfBirth"));
 
-		log.info("Assigned_Dependents_06 - Step 04: Enter new value to 'Name' textbox");
+		log.info("Assigned_Dependents_06 - Step 04: Enter new value in 'Name' textbox");
 		myInfoPage.enterToTextboxByID(driver, "dependent_name", dependentName);
 
 		log.info("Assigned_Dependents_06 - Step 05-a: Select ' " + dependentRela
 				+ " ' value in 'Relationship' dropdown");
 		myInfoPage.selectItemInDropdownByID(driver, "dependent_relationshipType", dependentRela);
 
-		log.info("Assigned_Dependents_06 - Step 05-b: Enter new value to 'Please Specify' textbox");
+		log.info("Assigned_Dependents_06 - Step 05-b: Enter new value in 'Please Specify' textbox");
 		myInfoPage.enterToTextboxByID(driver, "dependent_relationship", specifyRela);
 
-		log.info("Assigned_Dependents_06 - Step 06: Pick new value from 'Date of Birth' datepicker");
-		myInfoPage.enterADateToTextboxByID(driver, "dependent_dateOfBirth", dependentDOB);
-
+		//log.info("Assigned_Dependents_06 - Step 06: Pick new value from 'Date of Birth' datepicker");
+		
 		log.info("Assigned_Dependents_06 - Step 07: Click on 'Save' button at 'Add Dependent' form");
 		myInfoPage.clickToButtonByID(driver, "btnSaveDependent");
 
@@ -525,10 +543,10 @@ public class Level_19_Fake_Data extends BaseTest {
 		verifyEquals(myInfoPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "dependent_list", "Relationship", "1"),
 				specifyRela);
 
-		log.info("Assigned_Dependents_06 - Step 12: Verify added 'Date of Birth' is updated");
-		verifyEquals(
-				myInfoPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "dependent_list", "Date of Birth", "1"),
-				dependentDOB);
+//		log.info("Assigned_Dependents_06 - Step 12: Verify added 'Date of Birth' is updated");
+//		verifyEquals(
+//				myInfoPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "dependent_list", "Date of Birth", "1"),
+//				dependentDOB);
 	}
 
 	@Test
@@ -551,7 +569,7 @@ public class Level_19_Fake_Data extends BaseTest {
 		verifyTrue(myInfoPage.isFieldEnabledByName(driver, "immigration_i9_review_date"));
 		verifyTrue(myInfoPage.isFieldEnabledByName(driver, "immigration_comments"));
 
-		log.info("Assigned_Immigration_07 - Step 05: Enter new value to 'Number' textbox");
+		log.info("Assigned_Immigration_07 - Step 05: Enter new value in 'Number' textbox");
 		myInfoPage.enterToTextboxByID(driver, "immigration_number", immigNumber);
 
 		log.info("Assigned_Immigration_07 - Step 06: Click on 'Save' button");
@@ -635,30 +653,30 @@ public class Level_19_Fake_Data extends BaseTest {
 		myInfoPage.isJQueryAjaxLoadedSuccess(driver);
 
 		log.info("Job_08 - Step 19: Verify Success Message is Displayed");
-		verifyTrue(myInfoPage.isSuccessMessageDisplayed(driver, "Successfully Updated"));
+		verifyTrue(myInfoPage.isSuccessMessageDisplayed(driver, "Successfully Saved"));
 
-		log.info("Job_08 - Step 20: Verify ");
+		log.info("Job_08 - Step 20: Verify 'Job Title' textbox is successfully updated");
 		verifyEquals(myInfoPage.getTextboxValueByID(driver, "job_job_title"), jobTitle);
 
-		log.info("Job_08 - Step 21: Verify ");
+		log.info("Job_08 - Step 21: Verify 'Employment Status' textbox is successfully updated");
 		verifyEquals(myInfoPage.getTextboxValueByID(driver, "job_emp_status"), empStatus);
 
-		log.info("Job_08 - Step 22: Verify ");
+		log.info("Job_08 - Step 22: Verify 'Job Category' textbox is successfully updated");
 		verifyEquals(myInfoPage.getTextboxValueByID(driver, "job_eeo_category"), jobCategory);
 
-		log.info("Job_08 - Step 23: Verify ");
+		log.info("Job_08 - Step 23: Verify 'Joined Date' textbox is successfully updated");
 		verifyEquals(myInfoPage.getTextboxValueByID(driver, "job_joined_date"), joinedDate);
 
-		log.info("Job_08 - Step 24: Verify ");
+		log.info("Job_08 - Step 24: Verify 'Sub Unit' textbox is successfully updated");
 		verifyEquals(myInfoPage.getTextboxValueByID(driver, "job_sub_unit"), jobSubUnit);
 
-		log.info("Job_08 - Step 25: Verify ");
+		log.info("Job_08 - Step 25: Verify 'Location' textbox is successfully updated");
 		verifyEquals(myInfoPage.getTextboxValueByID(driver, "job_location"), jobLocation);
 
-		log.info("Job_08 - Step 26: Verify ");
+		log.info("Job_08 - Step 26: Verify 'Start Date' textbox is successfully updated");
 		verifyEquals(myInfoPage.getTextboxValueByID(driver, "job_contract_start_date"), startDate);
 
-		log.info("Job_08 - Step 27: Verify ");
+		log.info("Job_08 - Step 27: Verify 'End Date' textbox is successfully updated");
 		verifyEquals(myInfoPage.getTextboxValueByID(driver, "job_contract_end_date"), endDate);
 
 		log.info("Job_08 - Step 28: Verify ");
@@ -678,7 +696,7 @@ public class Level_19_Fake_Data extends BaseTest {
 		log.info("Tax_Exemptions_10 - Step 01: Open 'Tax Exemptions' Tab at Side Bar");
 		myInfoPage.openTabAtSideBarByName("Tax Exemptions");
 
-		log.info("Tax_Exemptions_10 - Step 02: Verify all fiels at 'Tax Exemptions' form are Disabled");
+		log.info("Tax_Exemptions_10 - Step 02: Verify all fields at 'Tax Exemptions' form are Disabled");
 		// Federal Income Tax
 		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "tax_federalStatus"));
 		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "tax_federalExemptions"));
@@ -699,7 +717,7 @@ public class Level_19_Fake_Data extends BaseTest {
 		log.info("Tax_Exemptions_10 - Step 05: Select new value to 'Status' dropdown at 'Federal Income Tax' ");
 		myInfoPage.selectItemInDropdownByID(driver, "tax_federalStatus", federalStatus);
 
-		log.info("Tax_Exemptions_10 - Step 06: Enter new value to 'Exemptions' textbox at 'Federal Income Tax' ");
+		log.info("Tax_Exemptions_10 - Step 06: Enter new value on 'Exemptions' textbox at 'Federal Income Tax' ");
 		myInfoPage.enterToTextboxByID(driver, "tax_federalExemptions", federalExemptions);
 
 		log.info("Tax_Exemptions_10 - Step 07: Print out all values in 'State' dropdown list at 'State Income Tax' ");
@@ -714,7 +732,7 @@ public class Level_19_Fake_Data extends BaseTest {
 		log.info("Tax_Exemptions_10 - Step 10: Select new value to 'Status' dropdown at 'State Income Tax' ");
 		myInfoPage.selectItemInDropdownByID(driver, "tax_stateStatus", stateStatus);
 
-		log.info("Tax_Exemptions_10 - Step 11: Enter new value to 'Exemptions' textbox at 'State Income Tax' ");
+		log.info("Tax_Exemptions_10 - Step 11: Enter new value in 'Exemptions' textbox at 'State Income Tax' ");
 		myInfoPage.enterToTextboxByID(driver, "tax_stateExemptions", tateExemptions);
 
 		log.info(
@@ -750,12 +768,18 @@ public class Level_19_Fake_Data extends BaseTest {
 		verifyTrue(myInfoPage.isFieldEnabledByName(driver, "experience_to_date"));
 		verifyTrue(myInfoPage.isFieldEnabledByName(driver, "experience_comments"));
 
-		log.info("Qualifications_11 - Step 04 : Enter new value to 'Company' textbox at 'Add Work Experience' form");
-		log.info("Qualifications_11 - Step 05 : Enter new value to 'Job Title' textbox at 'Add Work Experience' form");
-		log.info("Qualifications_11 - Step 06 : Pick new value at 'From' ");
-		log.info("Qualifications_11 - Step 07 : Pick new value at 'To' ");
-		log.info("Qualifications_11 - Step 08 : Enter new value to 'Comment' textbox at 'Add Work Experience' form");
+		log.info("Qualifications_11 - Step 04 : Enter new value in 'Company' textbox at 'Add Work Experience' form");
+		myInfoPage.enterToTextboxByID(driver, "experience_employer", companyName);
+		
+		log.info("Qualifications_11 - Step 05 : Enter new value in 'Job Title' textbox at 'Add Work Experience' form");
+		myInfoPage.enterToTextboxByID(driver, "experience_jobtitle", jobTitle);
+		
+		//log.info("Qualifications_11 - Step 06 : Pick new value at 'From' ");
+		//log.info("Qualifications_11 - Step 07 : Pick new value at 'To' ");
+		//log.info("Qualifications_11 - Step 08 : Enter new value to 'Comment' textbox at 'Add Work Experience' form");
+		
 		log.info("Qualifications_11 - Step 09 : Click on 'Save' button at 'Add Work Experience' form");
+		myInfoPage.clickToButtonByID(driver, "btnWorkExpSave");
 
 		log.info("Qualifications_11 - Step 10 : Verify Success Message is Displayed");
 		verifyTrue(myInfoPage.isSuccessMessageDisplayed(driver, "Successfully Saved"));
@@ -764,19 +788,16 @@ public class Level_19_Fake_Data extends BaseTest {
 		myInfoPage.getAllValuesOfEachRowInTable(driver);
 
 		log.info("Qualifications_11 - Step 12: Verify added 'Company' is updated");
-		verifyEquals(myInfoPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "table hover", "Company", "1"), "");
+		verifyEquals(myInfoPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "", "Company", "1"), companyName);
 
-		log.info("Qualifications_11 - Step 13: Verify added 'Job Title' is updated");
-		verifyEquals(myInfoPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "table hover", "Job Title", "1"), "");
-
-		log.info("Qualifications_11 - Step 14: Verify added 'From' is updated");
-		verifyEquals(myInfoPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "table hover", "From", "1"), "");
-
-		log.info("Qualifications_11 - Step 15: Verify added 'To' is updated");
-		verifyEquals(myInfoPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "table hover", "To", "1"), "");
-
-		log.info("Qualifications_11 - Step 16: Verify added 'Comment' is updated");
-		verifyEquals(myInfoPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "table hover", "Comment", "1"), "");
+//		log.info("Qualifications_11 - Step 13: Verify added 'Job Title' is updated");
+//		verifyEquals(myInfoPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "", "Job Title", "1"), jobTitle);
+//		log.info("Qualifications_11 - Step 14: Verify added 'From' is updated");
+//		verifyEquals(myInfoPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "", "From", "1"), "");
+//		log.info("Qualifications_11 - Step 15: Verify added 'To' is updated");
+//		verifyEquals(myInfoPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "", "To", "1"), "");
+//		log.info("Qualifications_11 - Step 16: Verify added 'Comment' is updated");
+//		verifyEquals(myInfoPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "", "Comment", "1"), "");
 
 		// Education
 		log.info("Qualifications_11 - Step 16: Click on 'Add' button at 'Education' form");
@@ -795,17 +816,26 @@ public class Level_19_Fake_Data extends BaseTest {
 		myInfoPage.getAllValuesInDropdownByID(driver, "education_code");
 
 		log.info("Qualifications_11 - Step 19: Select new value 'Level' dropdown list at 'Add Education' ");
-		myInfoPage.selectItemInDropdownByID(driver, "education_code", "");
+		myInfoPage.selectItemInDropdownByID(driver, "education_code", eduCode);
 
-		log.info("Qualifications_11 - Step 20: Enter new value to 'Institute' textbox at 'Add Education' form");
+		log.info("Qualifications_11 - Step 20: Enter new value in 'Institute' textbox at 'Add Education' form");
+		myInfoPage.enterToTextboxByID(driver, "education_institute", eduInstitue);
+		
 		log.info(
-				"Qualifications_11 - Step 21: Enter new value to 'Major/Specialization' textbox at 'Add Education' form");
-		log.info("Qualifications_11 - Step 22: Enter new value to 'Year' textbox at 'Add Education' form");
-		log.info("Qualifications_11 - Step 23: Enter new value to 'GPA/Score' textbox at 'Add Education' form");
-		log.info("Qualifications_11 - Step 24: Pick new value from 'Start Date' datepicker at 'Add Education' form");
-		log.info("Qualifications_11 - Step 25: Pick new value from 'End Date' datepicker at 'Add Education' form");
+				"Qualifications_11 - Step 21: Enter new value in 'Major/Specialization' textbox at 'Add Education' form");
+		myInfoPage.enterToTextboxByID(driver, "education_major", eduMajor);
+		
+		log.info("Qualifications_11 - Step 22: Enter new value in 'Year' textbox at 'Add Education' form");
+		myInfoPage.enterToTextboxByID(driver, "education_year", eduYear);
+		
+		log.info("Qualifications_11 - Step 23: Enter new value in 'GPA/Score' textbox at 'Add Education' form");
+		myInfoPage.enterToTextboxByID(driver, "education_gpa", eduGPA);
+		
+//		log.info("Qualifications_11 - Step 24: Pick new value from 'Start Date' datepicker at 'Add Education' form");
+//		log.info("Qualifications_11 - Step 25: Pick new value from 'End Date' datepicker at 'Add Education' form");
 
 		log.info("Qualifications_11 - Step 26: Click on 'Save' button at 'Add Education' form");
+		myInfoPage.clickToButtonByID(driver, "btnEducationSave");
 
 		log.info("Qualifications_11 - Step 27: Verify Success Message is Displayed");
 		verifyTrue(myInfoPage.isSuccessMessageDisplayed(driver, "Successfully Saved"));
@@ -816,9 +846,52 @@ public class Level_19_Fake_Data extends BaseTest {
 		log.info("Qualifications_11 - Step 29: Verify added 'Level' is updated");
 
 	}
-
 	@Test
-	public void Employee_12_Search_Employee() {
+	public void Employee_12_Memberships() {
+		log.info("Memberships_12 - Step 01: Open 'Memberships' Tab at Side Bar");
+		myInfoPage.openTabAtSideBarByName("Memberships");
+		
+		log.info("Memberships_12 - Step 02: Click on 'Add' button at 'Assigned Memberships' form");
+		myInfoPage.clickToButtonByID(driver, "btnAddMembershipDetail");
+		
+		log.info("Memberships_12 - Step 03: Verify all fields at 'Add Membership' are Enabled");
+		myInfoPage.isFieldEnabledByName(driver, "membership_membership");
+		myInfoPage.isFieldEnabledByName(driver, "membership_subscriptionPaidBy");
+		myInfoPage.isFieldEnabledByName(driver, "membership_subscriptionAmount");
+		myInfoPage.isFieldEnabledByName(driver, "membership_currency");
+		myInfoPage.isFieldEnabledByName(driver, "membership_subscriptionCommenceDate");
+		myInfoPage.isFieldEnabledByName(driver, "membership_subscriptionRenewalDate");
+		
+		log.info("Memberships_12 - Step 04: Print out all values in 'Membership' dropdown list");
+		myInfoPage.getAllValuesInDropdownByID(driver, "membership_membership");
+		
+		log.info("Memberships_12 - Step 05: Select new  value in 'Membership' dropdown list");
+		myInfoPage.selectItemInDropdownByID(driver, "membership_membership", membership);
+		
+		log.info("Memberships_12 - Step 06: Print out all values in 'Subscription Paid By' dropdown list");
+		myInfoPage.getAllValuesInDropdownByID(driver, "membership_subscriptionPaidBy");
+		
+		log.info("Memberships_12 - Step 07: Select new  value in 'Subscription Paid By' dropdown list");
+		myInfoPage.selectItemInDropdownByID(driver, "membership_subscriptionPaidBy", subscriptionPaidBy);
+		
+		log.info("Memberships_12 - Step 08: Enter new value  in 'Subscription Amount' textbox");
+		myInfoPage.enterToTextboxByID(driver, "membership_subscriptionAmount", subscriptionAmount);
+		
+		log.info("Memberships_12 - Step 09: Print out all values in 'Currency' dropdown list");
+		myInfoPage.getAllValuesInDropdownByID(driver, "membership_currency");
+		
+		log.info("Memberships_12 - Step 10: Select new  value in 'Currency' dropdown list");
+		myInfoPage.selectItemInDropdownByID(driver, "membership_currency", currency);
+		
+		log.info("Memberships_12 - Step 11: Click on 'Save' button at 'Add Membership' form");
+		myInfoPage.clickToButtonByID(driver, "btnSaveMembership");
+		
+		log.info("Memberships_12 - Step 12: Verify Success Message is Displayed");
+		verifyTrue(myInfoPage.isSuccessMessageDisplayed(driver, "Successfully Saved"));
+		
+	}
+	@Test
+	public void Employee_13_Search_Employee() {
 
 	}
 
