@@ -30,6 +30,7 @@ import pageObjects.nopCommerce.user.UserHomePageObject;
 import pageObjects.nopCommerce.user.UserMyProductReviewPageObject;
 import pageObjects.nopCommerce.user.UserRewardPointPageObject;
 import pageUIs.hrm.BasePageUI;
+import pageUIs.hrm.EmployeeListPageUI;
 import pageUIs.jQuery.uploadFile.BasePageJQueryUI;
 import pageUIs.nopCommerce.user.BasePageNopCommerceUI;
 
@@ -700,6 +701,7 @@ public class BasePage {
 		sendkeyToElement(driver, BasePageUI.TEXTBOX_BY_ID, value, textboxIDName);
 
 	}
+
 	public void enterADateToTextboxByID(WebDriver driver, String textboxIDName, Date dependentDOB) {
 		waitForElementVisible(driver, BasePageUI.TEXTBOX_BY_ID, textboxIDName);
 		sendkeyToElement(driver, BasePageUI.TEXTBOX_BY_ID, textboxIDName);
@@ -783,9 +785,9 @@ public class BasePage {
 	public String getValueInTableIDAtColumnNameAndRowIndex(WebDriver driver, String tableID, String headerName,
 			String rowIndex) {
 		int columnIndex = getElementSize(driver, BasePageUI.TABLE_HEADER_BY_ID_AND_NAME, tableID, headerName) + 1;
-		waitForElementVisible(driver, BasePageUI.TABLE_ROW_BY_CLOLUMN_INDEX_AND_ROW_INDEX, tableID, rowIndex,
+		waitForElementVisible(driver, BasePageUI.TABLE_ROW_BY_COLUMN_INDEX_AND_ROW_INDEX, tableID, rowIndex,
 				String.valueOf(columnIndex));
-		return getElementText(driver, BasePageUI.TABLE_ROW_BY_CLOLUMN_INDEX_AND_ROW_INDEX, tableID, rowIndex,
+		return getElementText(driver, BasePageUI.TABLE_ROW_BY_COLUMN_INDEX_AND_ROW_INDEX, tableID, rowIndex,
 				String.valueOf(columnIndex));
 	}
 
@@ -861,6 +863,7 @@ public class BasePage {
 		return nameValues.equals(nameValuesClone);
 
 	}
+
 	public boolean getAllValuesInDropdownByID(WebDriver driver, String dropdownByID, String... dynamicValues) {
 		waitForElementClickable(driver, BasePageUI.DROPDOWN_BY_ID, dropdownByID);
 		clickToElement(driver, BasePageUI.DROPDOWN_BY_ID, dropdownByID);
@@ -883,6 +886,15 @@ public class BasePage {
 
 		return nameValues.equals(nameValuesClone);
 
+	}
+
+	public void clickOnElementAtRowByColumnAndIndex(WebDriver driver, String tableID, String headerName,
+			String rowIndex) {
+		int columnIndex = getElementSize(driver, BasePageUI.TABLE_HEADER_BY_ID_AND_NAME, tableID, headerName) + 1;
+		waitForElementClickable(driver, BasePageUI.TABLE_ROW_BY_COLUMN_INDEX_AND_ROW_INDEX, tableID, rowIndex,
+				String.valueOf(columnIndex));
+		clickToElement(driver, BasePageUI.TABLE_ROW_BY_COLUMN_INDEX_AND_ROW_INDEX, tableID, rowIndex,
+				String.valueOf(columnIndex));
 	}
 
 	public long longTimeout = GlobalConstants.LONG_TIMEOUT;

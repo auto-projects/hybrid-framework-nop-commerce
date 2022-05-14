@@ -12,8 +12,12 @@ public class BasePageUI {
 	public static final String CHECKBOX_BY_LABEL = "//label[text()='%s']/following-sibling::input";
 	public static final String RADIO_BY_LABEL = "//label[text()='%s']/preceding-sibling::input";
 	public static final String TABLE_HEADER_BY_ID_AND_NAME = "//table[@id='%s']//th[string()='%s']/preceding-sibling::th";
-	public static final String TABLE_ROW_BY_CLOLUMN_INDEX_AND_ROW_INDEX = "//table[@id='%s']/tbody/tr[%s]/td[%s]";
+	public static final String TABLE_ROW_BY_COLUMN_INDEX_AND_ROW_INDEX = "//table[@id='%s']/tbody/tr[%s]/td[%s]";
 	public static final String SUCCESS_MESSAGE_VALUE = "//div[@class='inner']/div[contains(text(),'%s')]";
+	
+	// Qualifications
+	public static final String TABLE_HEADER_BY_ID_OF_FORM = "//form[@id='%s']//table";
+	
 	
 	public static final String BLOOD_TYPE_DROPDOWN = "//select[@class='editable']";
 	

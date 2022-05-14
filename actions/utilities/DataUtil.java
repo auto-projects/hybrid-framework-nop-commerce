@@ -79,15 +79,27 @@ public class DataUtil {
 	public String getPhoneNumber() {
 		return faker.phoneNumber().phoneNumber();
 	}
+
 	public String getCellPhone() {
 		return faker.phoneNumber().cellPhone();
+	}
+	public String getNumber() {
+		return faker.number().digit();
 	}
 
 	public Date getYYYYMMDD() {
 		return faker.date().birthday();
 	}
+
 	public String getCompanyName() {
 		return faker.company().name();
 	}
 
+	public String getJobTitle() {
+		return faker.job().title();
+
+	}
+	public int getAmount(int min, int max) {
+		return faker.number().numberBetween(10000, 20000);
+	}
 }

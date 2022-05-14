@@ -8,6 +8,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import com.hrm.common.Common_01_Register_Then_Login;
+
 import commons.BaseTest;
 import commons.GlobalConstants;
 import pageObjects.hrm.AddEmployeePO;
@@ -23,7 +25,8 @@ public class Level_19_Fake_Data extends BaseTest {
 
 	// Add Employee & Edit 'Personal Details'
 	String employeeFullName, editEmpFirstName, editEmpLastName, editEmpGender, editEmpMaritalStatus, editEmpNationality;
-
+	String employeeEditedFullName;
+	
 	// Edit 'Contact Details'
 	String addressStreet1, addressStreet2, city, stateProvince, zipPostalCode, country, homeTelephone, mobile,
 			workTelephone, workEmail, otherEmail;
@@ -44,16 +47,18 @@ public class Level_19_Fake_Data extends BaseTest {
 	Date joinedDate, startDate, endDate;
 
 	// Salary
+	String payGrade, salaryComponent, payFrequency, currencyID, amount;
+	String accountType;
 
 	// Tax Exemptions
 	String federalStatus, federalExemptions, taxState, stateStatus, tateExemptions, unempState, workState;
-	
+
 	// Qualifications
 	String companyName, eduCode, eduInstitue, eduMajor, eduYear, eduGPA;
-	
+
 	// Memeberships
 	String membership, subscriptionPaidBy, subscriptionAmount, currency;
-	
+
 	String avatarFilePath = GlobalConstants.UPLOAD_FILE + "Dedo.jpg";
 	String attachmentFilePath = GlobalConstants.UPLOAD_FILE + "airbus320.jpg";
 	String contractFilePath = GlobalConstants.UPLOAD_FILE + "Yunxi_Yi.jpg";
@@ -84,13 +89,14 @@ public class Level_19_Fake_Data extends BaseTest {
 		editEmpGender = "Female";
 		editEmpMaritalStatus = "Single";
 		editEmpNationality = "Vietnamese";
+		employeeEditedFullName = editEmpFirstName + " " + editEmpLastName;
 
 		// Emer. Contacts
 		emerName = fakeData.getName();
 		emerRela = fakeData.getRelationship();
-		emerHomeTel = fakeData.getCellPhone();
-		emerMobile = fakeData.getCellPhone();
-		emerWorkTel = fakeData.getCellPhone();
+		emerHomeTel = fakeData.getNumber();
+		emerMobile = fakeData.getNumber();
+		emerWorkTel = fakeData.getNumber();
 
 		// Dependents
 		dependentName = fakeData.getName();
@@ -99,7 +105,7 @@ public class Level_19_Fake_Data extends BaseTest {
 		dependentDOB = fakeData.getYYYYMMDD();
 
 		// Immigration
-		immigNumber = fakeData.getPhoneNumber();
+		immigNumber = fakeData.getNumber();
 
 		// Edit 'Contact Details'
 		addressStreet1 = fakeData.getStreetAddress();
@@ -108,30 +114,36 @@ public class Level_19_Fake_Data extends BaseTest {
 		stateProvince = fakeData.getState();
 		zipPostalCode = fakeData.getZipPostalCode();
 		country = fakeData.getCountry();
-		homeTelephone = fakeData.getCellPhone();
-		mobile = fakeData.getCellPhone();
-		workTelephone = fakeData.getCellPhone();
+		homeTelephone = fakeData.getNumber();
+		mobile = fakeData.getNumber();
+		workTelephone = fakeData.getNumber();
 		workEmail = fakeData.getEmailAddress();
 		otherEmail = fakeData.getEmailAddress();
 
 		// Job
-		jobTitle = "";
-		empStatus = "";
-		jobCategory = "";
-		jobSubUnit = "";
-		jobLocation = "";
+		jobTitle = "Automation Tester";
+		empStatus = "Freelance";
+		jobCategory = "Professionals";
+		jobSubUnit = "Quality Assurance";
+		jobLocation = "New York Sales Office";
 
 		// Salary
+		payGrade = "Grade 14";
+		salaryComponent = fakeData.getNumber();
+		payFrequency = "Weekly";
+		currencyID = "United States Dollar";
+		amount = "12345";
+		accountType = "Savings";
 
 		// Tax Exemptions
-		federalStatus = "";
-		federalExemptions = "";
-		taxState = "";
-		stateStatus = "";
-		tateExemptions = "";
-		unempState = "";
-		workState = "";
-		
+		federalStatus = "Not Applicable";
+		federalExemptions = "12";
+		taxState = "Hawaii";
+		stateStatus = "Not Applicable";
+		tateExemptions = "11";
+		unempState = "California";
+		workState = "New York";
+
 		// Qualifications
 		companyName = fakeData.getCompanyName();
 		eduCode = "";
@@ -139,14 +151,14 @@ public class Level_19_Fake_Data extends BaseTest {
 		eduMajor = "";
 		eduYear = "1991";
 		eduGPA = "";
-		
+
 		// Memeberships
 		membership = "";
 		subscriptionPaidBy = "";
 		subscriptionAmount = "";
-		currency =  "";
-		
-		log.info("Pre-Condition - Step 02: Login with Admin Role '");
+		currency = "";
+
+		log.info("Pre-Condition - Step 02: Login with Admin Role");
 		dashboardPage = loginPage.loginToSystem(driver, adminUserName, adminPassword);
 	}
 
@@ -524,8 +536,9 @@ public class Level_19_Fake_Data extends BaseTest {
 		log.info("Assigned_Dependents_06 - Step 05-b: Enter new value in 'Please Specify' textbox");
 		myInfoPage.enterToTextboxByID(driver, "dependent_relationship", specifyRela);
 
-		//log.info("Assigned_Dependents_06 - Step 06: Pick new value from 'Date of Birth' datepicker");
-		
+		// log.info("Assigned_Dependents_06 - Step 06: Pick new value from 'Date of
+		// Birth' datepicker");
+
 		log.info("Assigned_Dependents_06 - Step 07: Click on 'Save' button at 'Add Dependent' form");
 		myInfoPage.clickToButtonByID(driver, "btnSaveDependent");
 
@@ -589,7 +602,7 @@ public class Level_19_Fake_Data extends BaseTest {
 	}
 
 	@Test
-	public void Employee_08_Edit_View_Job() {
+	public void Employee_08_Edit_View_Job() { // Only Edit by Admin
 		log.info("Job_08 - Step 01: Open 'Job' Tab at Side Bar");
 		myInfoPage.openTabAtSideBarByName("Job");
 
@@ -602,158 +615,298 @@ public class Level_19_Fake_Data extends BaseTest {
 		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "job_location"));
 		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "job_contract_start_date"));
 		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "job_contract_end_date"));
+		
+		log.info("Job_08 - Step 03: Login with 'Admin' Role");
+		loginPage = employeeListPage.logoutToSystem(driver);
+		dashboardPage = loginPage.loginToSystem(driver, adminUserName, adminPassword);
 
-		log.info("Job_08 - Step 03: Click on 'Edit' button at 'Job' form");
-		myInfoPage.clickToButtonByID(driver, "btnSave");
+		log.info("Job_08 - Step 04: Open 'Employee List' Page");
+		myInfoPage.openSubMenuPage(driver, "PIM", "Employee List");
+		employeeListPage = PageGenerator.getEmployeeListPage(driver);
 
-		log.info("Job_08 - Step 04: Print out all values in 'Job Title' dropdown list");
-		myInfoPage.getAllValuesInDropdownByID(driver, "job_job_title");
+		log.info("Job_08 - Step 05: Enter valid info in 'Employee Name' textbox");
+		verifyTrue(employeeListPage.isJQueryAjaxLoadedSuccess(driver));
+		employeeListPage.enterToTextboxByID(driver, "empsearch_employee_name_empName", employeeEditedFullName);
+		verifyTrue(employeeListPage.areJQueryAndJSLoadedSuccess(driver));
 
-		log.info("Job_08 - Step 05: Select new value to 'Job Title' dropdown");
-		myInfoPage.selectItemInDropdownByID(driver, "job_job_title", jobTitle);
+		log.info("Job_08 - Step 06: Click on 'Search' button");
+		employeeListPage.clickToButtonByID(driver, "searchBtn");
+		verifyTrue(employeeListPage.isJQueryAjaxLoadedSuccess(driver));
 
-		log.info("Job_08 - Step 06: Print out all values in 'Employment Status' dropdown list");
-		myInfoPage.getAllValuesInDropdownByID(driver, "job_emp_status");
+		log.info("Job_08 - Step 07: Click on Employee's name");
+		employeeListPage.clickOnElementAtRowByColumnAndIndex(driver, "resultTable", "First (& Middle) Name", "1");
 
-		log.info("Job_08 - Step 07: Select new value to 'Employment Status' dropdown");
-		myInfoPage.selectItemInDropdownByID(driver, "job_emp_status", empStatus);
+		log.info("Job_08 - Step 08: Open 'Job' Tab at Side Bar");
+		employeeListPage.openTabAtSideBarByName("Job");
 
-		log.info("Job_08 - Step 08: Print out all values in 'Job Category' dropdown list");
-		myInfoPage.getAllValuesInDropdownByID(driver, "job_eeo_category");
+		log.info("Job_08 - Step 09: Click on 'Edit' button at 'Job' form");
+		employeeListPage.clickToButtonByID(driver, "btnSave");
 
-		log.info("Job_08 - Step 09: Select new value to 'Job Category' dropdown");
-		myInfoPage.selectItemInDropdownByID(driver, "job_eeo_category", jobCategory);
+		log.info("Job_08 - Step 10: Print out all values in 'Job Title' dropdown list");
+		employeeListPage.getAllValuesInDropdownByID(driver, "job_job_title");
 
-		log.info("Job_08 - Step 10: Pick new value from 'Joined Date' datepicker");
-		myInfoPage.enterADateToTextboxByID(driver, "job_joined_date", joinedDate);
+		log.info("Job_08 - Step 11: Select new value to 'Job Title' dropdown");
+		employeeListPage.selectItemInDropdownByID(driver, "job_job_title", jobTitle);
 
-		log.info("Job_08 - Step 11: Print out all values in 'Sub Unit' dropdown list");
-		myInfoPage.getAllValuesInDropdownByID(driver, "job_sub_unit");
+		log.info("Job_08 - Step 12: Print out all values in 'Employment Status' dropdown list");
+		employeeListPage.getAllValuesInDropdownByID(driver, "job_emp_status");
 
-		log.info("Job_08 - Step 12: Select new value to 'Sub Unit' dropdown");
-		myInfoPage.selectItemInDropdownByID(driver, "job_sub_unit", jobSubUnit);
+		log.info("Job_08 - Step 13: Select new value to 'Employment Status' dropdown");
+		employeeListPage.selectItemInDropdownByID(driver, "job_emp_status", empStatus);
 
-		log.info("Job_08 - Step 13: Print out all values in 'Location' dropdown list");
-		myInfoPage.getAllValuesInDropdownByID(driver, "job_location");
+		log.info("Job_08 - Step 14: Print out all values in 'Job Category' dropdown list");
+		employeeListPage.getAllValuesInDropdownByID(driver, "job_eeo_category");
 
-		log.info("Job_08 - Step 14: Select new value to 'Location' dropdown");
-		myInfoPage.selectItemInDropdownByID(driver, "job_location", jobLocation);
+		log.info("Job_08 - Step 15: Select new value to 'Job Category' dropdown");
+		employeeListPage.selectItemInDropdownByID(driver, "job_eeo_category", jobCategory);
 
-		log.info("Job_08 - Step 15: Pick new value from 'Start Date' datepicker at 'Employment Contract' ");
-		myInfoPage.enterADateToTextboxByID(driver, "job_contract_start_date", startDate);
+		log.info("Job_08 - Step 16: Pick new value from 'Joined Date' datepicker");
+		employeeListPage.enterADateToTextboxByID(driver, "job_joined_date", joinedDate);
 
-		log.info("Job_08 - Step 16: Pick new value from 'End Date' datepicker at 'Employment Contract' ");
-		myInfoPage.enterADateToTextboxByID(driver, "job_contract_end_date", endDate);
+		log.info("Job_08 - Step 17: Print out all values in 'Sub Unit' dropdown list");
+		employeeListPage.getAllValuesInDropdownByID(driver, "job_sub_unit");
 
-		log.info("Job_08 - Step 17: Upload new file at 'Contract Details' ");
-		myInfoPage.uploadImage(driver, contractFilePath);
+		log.info("Job_08 - Step 18: Select new value to 'Sub Unit' dropdown");
+		employeeListPage.selectItemInDropdownByID(driver, "job_sub_unit", jobSubUnit);
 
-		log.info("Job_08 - Step 18: Click on 'Save' button");
-		myInfoPage.clickToButtonByID(driver, "btnSave");
-		myInfoPage.isJQueryAjaxLoadedSuccess(driver);
+		log.info("Job_08 - Step 19: Print out all values in 'Location' dropdown list");
+		employeeListPage.getAllValuesInDropdownByID(driver, "job_location");
 
-		log.info("Job_08 - Step 19: Verify Success Message is Displayed");
-		verifyTrue(myInfoPage.isSuccessMessageDisplayed(driver, "Successfully Saved"));
+		log.info("Job_08 - Step 20: Select new value to 'Location' dropdown");
+		employeeListPage.selectItemInDropdownByID(driver, "job_location", jobLocation);
 
-		log.info("Job_08 - Step 20: Verify 'Job Title' textbox is successfully updated");
-		verifyEquals(myInfoPage.getTextboxValueByID(driver, "job_job_title"), jobTitle);
+//		log.info("Job_08 - Step 21: Pick new value from 'Start Date' datepicker at 'Employment Contract' ");
+//		employeeListPage.enterADateToTextboxByID(driver, "job_contract_start_date", startDate);
+//
+//		log.info("Job_08 - Step 22: Pick new value from 'End Date' datepicker at 'Employment Contract' ");
+//		employeeListPage.enterADateToTextboxByID(driver, "job_contract_end_date", endDate);
 
-		log.info("Job_08 - Step 21: Verify 'Employment Status' textbox is successfully updated");
-		verifyEquals(myInfoPage.getTextboxValueByID(driver, "job_emp_status"), empStatus);
+		log.info("Job_08 - Step 23: Upload new file at 'Contract Details' ");
+		employeeListPage.uploadImage(driver, contractFilePath);
 
-		log.info("Job_08 - Step 22: Verify 'Job Category' textbox is successfully updated");
-		verifyEquals(myInfoPage.getTextboxValueByID(driver, "job_eeo_category"), jobCategory);
+		log.info("Job_08 - Step 24: Click on 'Save' button");
+		employeeListPage.clickToButtonByID(driver, "btnSave");
+		employeeListPage.isJQueryAjaxLoadedSuccess(driver);
 
-		log.info("Job_08 - Step 23: Verify 'Joined Date' textbox is successfully updated");
-		verifyEquals(myInfoPage.getTextboxValueByID(driver, "job_joined_date"), joinedDate);
+		log.info("Job_08 - Step 25: Verify Success Message is Displayed");
+		verifyTrue(employeeListPage.isSuccessMessageDisplayed(driver, "Successfully Updated"));
 
-		log.info("Job_08 - Step 24: Verify 'Sub Unit' textbox is successfully updated");
-		verifyEquals(myInfoPage.getTextboxValueByID(driver, "job_sub_unit"), jobSubUnit);
+		log.info("Job_08 - Step 26: Verify 'Job Title' textbox is successfully updated");
+		verifyEquals(employeeListPage.getTextboxValueByID(driver, "job_job_title"), jobTitle);
 
-		log.info("Job_08 - Step 25: Verify 'Location' textbox is successfully updated");
-		verifyEquals(myInfoPage.getTextboxValueByID(driver, "job_location"), jobLocation);
+		log.info("Job_08 - Step 27: Verify 'Employment Status' textbox is successfully updated");
+		verifyEquals(employeeListPage.getTextboxValueByID(driver, "job_emp_status"), empStatus);
 
-		log.info("Job_08 - Step 26: Verify 'Start Date' textbox is successfully updated");
-		verifyEquals(myInfoPage.getTextboxValueByID(driver, "job_contract_start_date"), startDate);
+		log.info("Job_08 - Step 28: Verify 'Job Category' textbox is successfully updated");
+		verifyEquals(employeeListPage.getTextboxValueByID(driver, "job_eeo_category"), jobCategory);
 
-		log.info("Job_08 - Step 27: Verify 'End Date' textbox is successfully updated");
-		verifyEquals(myInfoPage.getTextboxValueByID(driver, "job_contract_end_date"), endDate);
+		log.info("Job_08 - Step 29: Verify 'Joined Date' textbox is successfully updated");
+		verifyEquals(employeeListPage.getTextboxValueByID(driver, "job_joined_date"), joinedDate);
 
-		log.info("Job_08 - Step 28: Verify ");
-		verifyEquals(myInfoPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "", "File Name", "1"), "Yunxi_Yi.jpg");
+		log.info("Job_08 - Step 30: Verify 'Sub Unit' textbox is successfully updated");
+		verifyEquals(employeeListPage.getTextboxValueByID(driver, "job_sub_unit"), jobSubUnit);
+
+		log.info("Job_08 - Step 31: Verify 'Location' textbox is successfully updated");
+		verifyEquals(employeeListPage.getTextboxValueByID(driver, "job_location"), jobLocation);
+
+//		log.info("Job_08 - Step 32: Verify 'Start Date' textbox is successfully updated");
+//		verifyEquals(employeeListPage.getTextboxValueByID(driver, "job_contract_start_date"), startDate);
+//
+//		log.info("Job_08 - Step 33: Verify 'End Date' textbox is successfully updated");
+//		verifyEquals(employeeListPage.getTextboxValueByID(driver, "job_contract_end_date"), endDate);
+
+//		log.info("Job_08 - Step 28: Verify 'Contact Details' is uploaded");
+//		verifyEquals(employeeListPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "", "File Name", "1"), "Yunxi_Yi.jpg");
 
 	}
 
 	@Test
 	public void Employee_09_Edit_View_Salary() {
 		log.info("Salary_09 - Step 01: Open 'Salary' Tab at Side Bar");
-		myInfoPage.openTabAtSideBarByName("Salary");
+		employeeListPage.openTabAtSideBarByName("Salary");
+
+		log.info("Salary_09 - Step 02: Click on 'Add' button at 'Assigned Salary Components' form");
+		employeeListPage.clickToButtonByID(driver, "addSalary");
+
+		log.info("Salary_09 - Step 03: Verify all fields at 'Add Salary Component' are Enabled");
+		verifyTrue(employeeListPage.isFieldEnabledByName(driver, "salary_sal_grd_code"));
+		verifyTrue(employeeListPage.isFieldEnabledByName(driver, "salary_salary_component"));
+		verifyTrue(employeeListPage.isFieldEnabledByName(driver, "salary_payperiod_code"));
+		verifyTrue(employeeListPage.isFieldEnabledByName(driver, "salary_currency_id"));
+		verifyTrue(employeeListPage.isFieldEnabledByName(driver, "salary_basic_salary"));
+		verifyTrue(employeeListPage.isFieldEnabledByName(driver, "salary_comments"));
+
+		log.info("Salary_09 - Step 04: Print out all values in 'Pay Grade' dropdown list");
+		employeeListPage.getAllValuesInDropdownByID(driver, "salary_sal_grd_code");
+
+		log.info("Salary_09 - Step 05: Select new value to 'Pay Grade' dropdown");
+		employeeListPage.selectItemInDropdownByID(driver, "salary_sal_grd_code", payGrade);
+
+		log.info("Salary_09 - Step 06: Enter new value in 'Salary Component' textbox");
+		employeeListPage.enterToTextboxByID(driver, "salary_salary_component", salaryComponent);
+
+		log.info("Salary_09 - Step 07: Print out all values in 'Pay Frequency ' dropdown list");
+		employeeListPage.getAllValuesInDropdownByID(driver, "salary_payperiod_code");
+
+		log.info("Salary_09 - Step 08: Select new value to 'Pay Frequency' dropdown");
+		employeeListPage.selectItemInDropdownByID(driver, "salary_payperiod_code", payFrequency);
+
+		log.info("Salary_09 - Step 09: Print out all values in 'Currency ' dropdown list");
+		employeeListPage.getAllValuesInDropdownByID(driver, "salary_currency_id");
+
+		log.info("Salary_09 - Step 10: Select new value to 'Currency' dropdown");
+		employeeListPage.selectItemInDropdownByID(driver, "salary_currency_id", currencyID);
+
+		log.info("Salary_09 - Step 11: Enter new value in 'Amount' textbox");
+		employeeListPage.enterToTextboxByID(driver, "salary_basic_salary", amount);
+
+		log.info("Salary_09 - Step 12: Click on 'Add Direct Deposit Details' checkbox");
+		employeeListPage.clickToCheckboxByLabel(driver, "Add Direct Deposit Details");
+
+		log.info("Salary_09 - Step 13: Verify some fields at 'Add Direct Deposit Details' are Enabled");
+		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "directdeposit_account"));
+		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "directdeposit_account_type"));
+		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "directdeposit_routing_num"));
+		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "directdeposit_amount"));
+
+		log.info("Salary_09 - Step 14: Enter new value in 'Account Numbert' textbox");
+		employeeListPage.enterToTextboxByID(driver, "directdeposit_account", amount);
+
+		log.info("Salary_09 - Step 15: Print out all values in 'Account Type' dropdown list");
+		employeeListPage.getAllValuesInDropdownByID(driver, "directdeposit_account_type");
+
+		log.info("Salary_09 - Step 16: Select new value to 'Account Type' dropdown");
+		employeeListPage.selectItemInDropdownByID(driver, "directdeposit_account_type", accountType);
+
+		log.info("Salary_09 - Step 17: Enter new value in 'Routing Number' textbox");
+		employeeListPage.enterToTextboxByID(driver, "directdeposit_routing_num", amount);
+
+		log.info("Salary_09 - Step 18: Enter new value in 'Amount' textbox");
+		employeeListPage.enterToTextboxByID(driver, "directdeposit_amount", amount);
+
+		log.info("Salary_09 - Step 19: Click on 'Add' button at 'Add Salary Component' form");
+		employeeListPage.clickToButtonByID(driver, "btnSalarySave");
+
+		log.info("Salary_09 - Step 20: Verify Success Message is Displayed");
+		verifyTrue(employeeListPage.isSuccessMessageDisplayed(driver, "Successfully Saved"));
+
+		log.info("Salary_09 - Step 21: Verify added 'Salary Component' is updated");
+		verifyEquals(
+				employeeListPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "tblSalary", "Salary Component", "1"),
+				salaryComponent);
+
+		log.info("Salary_09 - Step 22: Verify added 'Pay Frequency' is updated");
+		verifyEquals(
+				employeeListPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "tblSalary", "Pay Frequency", "1"),
+				payFrequency);
+
+		log.info("Salary_09 - Step 23: Verify added 'Currency' is updated");
+		verifyEquals(employeeListPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "tblSalary", "Currency", "1"),
+				currencyID);
+
+		log.info("Salary_09 - Step 24: Verify added 'Amount' is updated");
+		verifyEquals(employeeListPage.getValueInTableIDAtColumnNameAndRowIndex(driver, "tblSalary", "Amount", "1"),
+				amount);
 
 	}
 
 	@Test
 	public void Employee_10_Edit_View_Tax() {
 		log.info("Tax_Exemptions_10 - Step 01: Open 'Tax Exemptions' Tab at Side Bar");
-		myInfoPage.openTabAtSideBarByName("Tax Exemptions");
+		employeeListPage.openTabAtSideBarByName("Tax Exemptions");
 
 		log.info("Tax_Exemptions_10 - Step 02: Verify all fields at 'Tax Exemptions' form are Disabled");
 		// Federal Income Tax
-		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "tax_federalStatus"));
-		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "tax_federalExemptions"));
+		verifyFalse(employeeListPage.isFieldEnabledByName(driver, "tax_federalStatus"));
+		verifyFalse(employeeListPage.isFieldEnabledByName(driver, "tax_federalExemptions"));
 		// State Income Tax
-		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "tax_state"));
-		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "tax_stateStatus"));
-		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "tax_stateExemptions"));
-		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "tax_unempState"));
-		verifyFalse(myInfoPage.isFieldEnabledByName(driver, "tax_workState"));
+		verifyFalse(employeeListPage.isFieldEnabledByName(driver, "tax_state"));
+		verifyFalse(employeeListPage.isFieldEnabledByName(driver, "tax_stateStatus"));
+		verifyFalse(employeeListPage.isFieldEnabledByName(driver, "tax_stateExemptions"));
+		verifyFalse(employeeListPage.isFieldEnabledByName(driver, "tax_unempState"));
+		verifyFalse(employeeListPage.isFieldEnabledByName(driver, "tax_workState"));
 
 		log.info("Tax_Exemptions_10 - Step 03: Click on 'Edit' button at 'Tax Exemptions' ");
-		myInfoPage.clickToButtonByID(driver, "");
+		employeeListPage.clickToButtonByID(driver, "btnSave");
 
 		log.info(
 				"Tax_Exemptions_10 - Step 04: Print out all values in 'Status' dropdown list at 'Federal Income Tax' ");
-		myInfoPage.getAllValuesInDropdownByID(driver, "tax_federalStatus");
+		employeeListPage.getAllValuesInDropdownByID(driver, "tax_federalStatus");
 
 		log.info("Tax_Exemptions_10 - Step 05: Select new value to 'Status' dropdown at 'Federal Income Tax' ");
-		myInfoPage.selectItemInDropdownByID(driver, "tax_federalStatus", federalStatus);
+		employeeListPage.selectItemInDropdownByID(driver, "tax_federalStatus", federalStatus);
 
 		log.info("Tax_Exemptions_10 - Step 06: Enter new value on 'Exemptions' textbox at 'Federal Income Tax' ");
-		myInfoPage.enterToTextboxByID(driver, "tax_federalExemptions", federalExemptions);
+		employeeListPage.enterToTextboxByID(driver, "tax_federalExemptions", federalExemptions);
 
 		log.info("Tax_Exemptions_10 - Step 07: Print out all values in 'State' dropdown list at 'State Income Tax' ");
-		myInfoPage.getAllValuesInDropdownByID(driver, "tax_state");
+		employeeListPage.getAllValuesInDropdownByID(driver, "tax_state");
 
 		log.info("Tax_Exemptions_10 - Step 08: Select new value to 'State' dropdown at 'State Income Tax' ");
-		myInfoPage.selectItemInDropdownByID(driver, "tax_state", taxState);
+		employeeListPage.selectItemInDropdownByID(driver, "tax_state", taxState);
 
 		log.info("Tax_Exemptions_10 - Step 09: Print out all values in 'Status' dropdown list at 'State Income Tax' ");
-		myInfoPage.getAllValuesInDropdownByID(driver, "tax_stateStatus");
+		employeeListPage.getAllValuesInDropdownByID(driver, "tax_stateStatus");
 
 		log.info("Tax_Exemptions_10 - Step 10: Select new value to 'Status' dropdown at 'State Income Tax' ");
-		myInfoPage.selectItemInDropdownByID(driver, "tax_stateStatus", stateStatus);
+		employeeListPage.selectItemInDropdownByID(driver, "tax_stateStatus", stateStatus);
 
 		log.info("Tax_Exemptions_10 - Step 11: Enter new value in 'Exemptions' textbox at 'State Income Tax' ");
-		myInfoPage.enterToTextboxByID(driver, "tax_stateExemptions", tateExemptions);
+		employeeListPage.enterToTextboxByID(driver, "tax_stateExemptions", tateExemptions);
 
 		log.info(
 				"Tax_Exemptions_10 - Step 12: Print out all values in 'Unemployment State' dropdown list at 'State Income Tax' ");
-		myInfoPage.getAllValuesInDropdownByID(driver, "tax_unempState");
+		employeeListPage.getAllValuesInDropdownByID(driver, "tax_unempState");
 
 		log.info(
 				"Tax_Exemptions_10 - Step 13: Select new value to 'Unemployment State' dropdown at 'State Income Tax' ");
-		myInfoPage.selectItemInDropdownByID(driver, "tax_unempState", unempState);
+		employeeListPage.selectItemInDropdownByID(driver, "tax_unempState", unempState);
 
 		log.info(
 				"Tax_Exemptions_10 - Step 14: Print out all values in 'Work State' dropdown list at 'State Income Tax' ");
-		myInfoPage.getAllValuesInDropdownByID(driver, "tax_workState");
+		employeeListPage.getAllValuesInDropdownByID(driver, "tax_workState");
 
 		log.info("Tax_Exemptions_10 - Step 15: Select new value to 'Work State' dropdown at 'State Income Tax' ");
-		myInfoPage.selectItemInDropdownByID(driver, "tax_workState", workState);
-
+		employeeListPage.selectItemInDropdownByID(driver, "tax_workState", workState);
+		
+		log.info("Tax_Exemptions_10 - Step 16: Verify Success Message is Displayed");
+		verifyTrue(employeeListPage.isSuccessMessageDisplayed(driver, "Successfully Saved"));
+		
+		log.info("Tax_Exemptions_10 - Step 17: Verify 'Status' textbox at 'Tax Exemptions'  is successfully updated");
+		verifyEquals(employeeListPage.getTextboxValueByID(driver, "tax_federalStatus"), federalStatus);
+		
+		log.info("Tax_Exemptions_10 - Step 18: Verify 'Exemptions' textbox at 'Tax Exemptions'  is successfully updated");
+		verifyEquals(employeeListPage.getTextboxValueByID(driver, "tax_federalExemptions"), federalExemptions);
+		
+		log.info("Tax_Exemptions_10 - Step 19: Verify 'State' textbox at 'State Income Tax'  is successfully updated");
+		verifyEquals(employeeListPage.getTextboxValueByID(driver, "tax_state"), taxState);
+		
+		log.info("Tax_Exemptions_10 - Step 20: Verify 'Status' textbox at 'State Income Tax'  is successfully updated");
+		verifyEquals(employeeListPage.getTextboxValueByID(driver, "tax_stateStatus"), stateStatus);
+		
+		log.info("Tax_Exemptions_10 - Step 21: Verify 'Exemptions' textbox at 'State Income Tax'  is successfully updated");
+		verifyEquals(employeeListPage.getTextboxValueByID(driver, "tax_stateExemptions"), tateExemptions);
+		
+		log.info("Tax_Exemptions_10 - Step 22: Verify 'Unemployment State' textbox at 'State Income Tax'  is successfully updated");
+		verifyEquals(employeeListPage.getTextboxValueByID(driver, "tax_unempState"), unempState);
+		
+		log.info("Tax_Exemptions_10 - Step 23: Verify 'Work State' textbox at 'State Income Tax'  is successfully updated");
+		verifyEquals(employeeListPage.getTextboxValueByID(driver, "tax_workState"), workState);
+		
 	}
 
 	@Test
 	public void Employee_11_Qualifications() {
+		log.info("Qualifications_11 - Step 00: Login back again with Employee Role");
+		loginPage = employeeListPage.logoutToSystem(driver);
+		loginPage.setAllCookies(driver, Common_01_Register_Then_Login.loginPageCookie);
+		loginPage.sleepInSecond(5);
+		loginPage.refreshCurrentPage(driver);
+		
+		log.info("Qualifications_11 - Step 00: Open Personal Detail Page");
+		dashboardPage.openMenuPage(driver, "My Info");
+		myInfoPage = PageGenerator.getMyInfoPage(driver);
+		
 		log.info("Qualifications_11 - Step 01: Open 'Qualifications' Tab at Side Bar");
 		myInfoPage.openTabAtSideBarByName("Qualifications");
 
@@ -770,14 +923,15 @@ public class Level_19_Fake_Data extends BaseTest {
 
 		log.info("Qualifications_11 - Step 04 : Enter new value in 'Company' textbox at 'Add Work Experience' form");
 		myInfoPage.enterToTextboxByID(driver, "experience_employer", companyName);
-		
+
 		log.info("Qualifications_11 - Step 05 : Enter new value in 'Job Title' textbox at 'Add Work Experience' form");
 		myInfoPage.enterToTextboxByID(driver, "experience_jobtitle", jobTitle);
-		
-		//log.info("Qualifications_11 - Step 06 : Pick new value at 'From' ");
-		//log.info("Qualifications_11 - Step 07 : Pick new value at 'To' ");
-		//log.info("Qualifications_11 - Step 08 : Enter new value to 'Comment' textbox at 'Add Work Experience' form");
-		
+
+		// log.info("Qualifications_11 - Step 06 : Pick new value at 'From' ");
+		// log.info("Qualifications_11 - Step 07 : Pick new value at 'To' ");
+		// log.info("Qualifications_11 - Step 08 : Enter new value to 'Comment' textbox
+		// at 'Add Work Experience' form");
+
 		log.info("Qualifications_11 - Step 09 : Click on 'Save' button at 'Add Work Experience' form");
 		myInfoPage.clickToButtonByID(driver, "btnWorkExpSave");
 
@@ -820,17 +974,17 @@ public class Level_19_Fake_Data extends BaseTest {
 
 		log.info("Qualifications_11 - Step 20: Enter new value in 'Institute' textbox at 'Add Education' form");
 		myInfoPage.enterToTextboxByID(driver, "education_institute", eduInstitue);
-		
+
 		log.info(
 				"Qualifications_11 - Step 21: Enter new value in 'Major/Specialization' textbox at 'Add Education' form");
 		myInfoPage.enterToTextboxByID(driver, "education_major", eduMajor);
-		
+
 		log.info("Qualifications_11 - Step 22: Enter new value in 'Year' textbox at 'Add Education' form");
 		myInfoPage.enterToTextboxByID(driver, "education_year", eduYear);
-		
+
 		log.info("Qualifications_11 - Step 23: Enter new value in 'GPA/Score' textbox at 'Add Education' form");
 		myInfoPage.enterToTextboxByID(driver, "education_gpa", eduGPA);
-		
+
 //		log.info("Qualifications_11 - Step 24: Pick new value from 'Start Date' datepicker at 'Add Education' form");
 //		log.info("Qualifications_11 - Step 25: Pick new value from 'End Date' datepicker at 'Add Education' form");
 
@@ -846,14 +1000,15 @@ public class Level_19_Fake_Data extends BaseTest {
 		log.info("Qualifications_11 - Step 29: Verify added 'Level' is updated");
 
 	}
+
 	@Test
 	public void Employee_12_Memberships() {
 		log.info("Memberships_12 - Step 01: Open 'Memberships' Tab at Side Bar");
 		myInfoPage.openTabAtSideBarByName("Memberships");
-		
+
 		log.info("Memberships_12 - Step 02: Click on 'Add' button at 'Assigned Memberships' form");
 		myInfoPage.clickToButtonByID(driver, "btnAddMembershipDetail");
-		
+
 		log.info("Memberships_12 - Step 03: Verify all fields at 'Add Membership' are Enabled");
 		myInfoPage.isFieldEnabledByName(driver, "membership_membership");
 		myInfoPage.isFieldEnabledByName(driver, "membership_subscriptionPaidBy");
@@ -861,35 +1016,36 @@ public class Level_19_Fake_Data extends BaseTest {
 		myInfoPage.isFieldEnabledByName(driver, "membership_currency");
 		myInfoPage.isFieldEnabledByName(driver, "membership_subscriptionCommenceDate");
 		myInfoPage.isFieldEnabledByName(driver, "membership_subscriptionRenewalDate");
-		
+
 		log.info("Memberships_12 - Step 04: Print out all values in 'Membership' dropdown list");
 		myInfoPage.getAllValuesInDropdownByID(driver, "membership_membership");
-		
+
 		log.info("Memberships_12 - Step 05: Select new  value in 'Membership' dropdown list");
 		myInfoPage.selectItemInDropdownByID(driver, "membership_membership", membership);
-		
+
 		log.info("Memberships_12 - Step 06: Print out all values in 'Subscription Paid By' dropdown list");
 		myInfoPage.getAllValuesInDropdownByID(driver, "membership_subscriptionPaidBy");
-		
+
 		log.info("Memberships_12 - Step 07: Select new  value in 'Subscription Paid By' dropdown list");
 		myInfoPage.selectItemInDropdownByID(driver, "membership_subscriptionPaidBy", subscriptionPaidBy);
-		
+
 		log.info("Memberships_12 - Step 08: Enter new value  in 'Subscription Amount' textbox");
 		myInfoPage.enterToTextboxByID(driver, "membership_subscriptionAmount", subscriptionAmount);
-		
+
 		log.info("Memberships_12 - Step 09: Print out all values in 'Currency' dropdown list");
 		myInfoPage.getAllValuesInDropdownByID(driver, "membership_currency");
-		
+
 		log.info("Memberships_12 - Step 10: Select new  value in 'Currency' dropdown list");
 		myInfoPage.selectItemInDropdownByID(driver, "membership_currency", currency);
-		
+
 		log.info("Memberships_12 - Step 11: Click on 'Save' button at 'Add Membership' form");
 		myInfoPage.clickToButtonByID(driver, "btnSaveMembership");
-		
+
 		log.info("Memberships_12 - Step 12: Verify Success Message is Displayed");
 		verifyTrue(myInfoPage.isSuccessMessageDisplayed(driver, "Successfully Saved"));
-		
+
 	}
+
 	@Test
 	public void Employee_13_Search_Employee() {
 
