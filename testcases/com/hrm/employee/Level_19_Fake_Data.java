@@ -634,7 +634,7 @@ public class Level_19_Fake_Data extends BaseTest {
 		verifyTrue(employeeListPage.isJQueryAjaxLoadedSuccess(driver));
 
 		log.info("Job_08 - Step 07: Click on Employee's name");
-		employeeListPage.clickOnElementAtRowByColumnAndIndex(driver, "resultTable", "First (& Middle) Name", "1");
+		employeeListPage.clickOnElementAtRowByColumnAndIndex(driver, "resultTable", "First (& Middle) Name", "2");
 
 		log.info("Job_08 - Step 08: Open 'Job' Tab at Side Bar");
 		employeeListPage.openTabAtSideBarByName("Job");

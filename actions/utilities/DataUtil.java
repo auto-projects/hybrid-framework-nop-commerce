@@ -84,7 +84,7 @@ public class DataUtil {
 		return faker.phoneNumber().cellPhone();
 	}
 	public String getNumber() {
-		return faker.number().digit();
+		return faker.number().digits(9);
 	}
 
 	public Date getYYYYMMDD() {
