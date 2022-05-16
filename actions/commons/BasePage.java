@@ -30,7 +30,6 @@ import pageObjects.nopCommerce.user.UserHomePageObject;
 import pageObjects.nopCommerce.user.UserMyProductReviewPageObject;
 import pageObjects.nopCommerce.user.UserRewardPointPageObject;
 import pageUIs.hrm.BasePageUI;
-import pageUIs.hrm.EmployeeListPageUI;
 import pageUIs.jQuery.uploadFile.BasePageJQueryUI;
 import pageUIs.nopCommerce.user.BasePageNopCommerceUI;
 
@@ -210,6 +209,13 @@ public class BasePage {
 			String... dynamicValues) {
 		Select select = new Select(getWebElement(driver, getDynamicXpath(xpathLocator, dynamicValues)));
 		select.selectByVisibleText(itemText);
+	}
+
+	protected String getSelectedItemByTextInDefaultDropdown(WebDriver driver, String xpathLocator, String itemText,
+			String... dynamicValues) {
+		Select select = new Select(getWebElement(driver, getDynamicXpath(xpathLocator, dynamicValues)));
+		select.selectByVisibleText(itemText);
+		return select.getFirstSelectedOption().getText();
 	}
 
 	protected String getSelectedItemDefaultDropdown(WebDriver driver, String xpathLocator) {
@@ -702,20 +708,6 @@ public class BasePage {
 
 	}
 
-	public void enterADateToTextboxByID(WebDriver driver, String textboxIDName, Date dependentDOB) {
-		waitForElementVisible(driver, BasePageUI.TEXTBOX_BY_ID, textboxIDName);
-		sendkeyToElement(driver, BasePageUI.TEXTBOX_BY_ID, textboxIDName);
-
-	}
-
-	/**
-	 * Get textbox value by textbox id
-	 * 
-	 * @author Yuna
-	 * @param driver
-	 * @param textboxIDName
-	 * @return attribute value
-	 */
 	public String getTextboxValueByID(WebDriver driver, String textboxIDName) {
 		waitForElementVisible(driver, BasePageUI.TEXTBOX_BY_ID, textboxIDName);
 		return getElementAttribute(driver, BasePageUI.TEXTBOX_BY_ID, "value", textboxIDName);
@@ -723,23 +715,9 @@ public class BasePage {
 	}
 
 	/**
-	 * Select Item In Dropdown By ID
+	 * [DROPDOWN] GET & VERIFY - Get Text Value (Text) in Dropdown by ID Dropdown ->
+	 * Select -> Get Text of selected item -> Verify
 	 * 
-	 * @author Yuna
-	 * @param driver
-	 * @param dropdownID
-	 * @param valueItem
-	 */
-	public void selectItemInDropdownByID(WebDriver driver, String dropdownID, String valueItem) {
-		waitForElementClickable(driver, BasePageUI.DROPDOWN_BY_ID, dropdownID);
-		selectItemInDefaultDropdown(driver, BasePageUI.DROPDOWN_BY_ID, valueItem, dropdownID);
-
-	}
-
-	/**
-	 * Get Selected Text Item in Dropdown
-	 * 
-	 * @author Yuna
 	 * @param driver
 	 * @param dropdownID
 	 * @param valueItem
@@ -749,6 +727,44 @@ public class BasePage {
 		waitForElementVisible(driver, BasePageUI.DROPDOWN_BY_ID, dropdownID);
 		return getSelectedItemDefaultDropdown(driver, BasePageUI.DROPDOWN_BY_ID, "value", dropdownID);
 
+	}
+
+	/**
+	 * [DROPDOWN] GET & VERIFY - Get Text Value (Attribute) in Dropdown ('Disabled
+	 * Dropdown') Dropdown -> Select -> Get Attribute ('value') of selected item ->
+	 * Verify
+	 * 
+	 * @param driver
+	 * @param dropdownID
+	 * @return selected text in dropdown
+	 */
+	public String getSelectedValueInDropdownByAttribute(WebDriver driver, String dropdownID) {
+		waitForElementVisible(driver, BasePageUI.DROPDOWN_BY_ID, dropdownID);
+		return getElementAttribute(driver, BasePageUI.DROPDOWN_BY_ID, "value", dropdownID);
+	}
+
+	/**
+	 * Select item in Dropdown By ID
+	 * 
+	 * @param driver
+	 * @param dropdownID
+	 * @param valueItem
+	 */
+	public void selectItemInDropdownByID(WebDriver driver, String dropdownID, String valueItem) {
+		waitForElementClickable(driver, BasePageUI.DROPDOWN_BY_ID, dropdownID);
+		selectItemInDefaultDropdown(driver, BasePageUI.DROPDOWN_BY_ID, valueItem, dropdownID);
+	}
+
+	/**
+	 * Get select item in Dropdown by ID
+	 * 
+	 * @param driver
+	 * @param dropdownID
+	 * @return
+	 */
+	public String getSelectedItemInDropdownByID(WebDriver driver, String dropdownID) {
+		waitForElementVisible(driver, BasePageUI.DROPDOWN_BY_ID, dropdownID);
+		return getSelectedItemDefaultDropdown(driver, BasePageUI.DROPDOWN_BY_ID, dropdownID);
 	}
 
 	/**
@@ -819,9 +835,93 @@ public class BasePage {
 		return isElementDisplayed(driver, BasePageUI.SUCCESS_MESSAGE_VALUE, messageValue);
 	}
 
-	public boolean isFieldEnabledByName(WebDriver driver, String filedID) {
+	public boolean isFieldEnabledByID(WebDriver driver, String filedID) {
 		waitForElementVisible(driver, BasePageUI.ANY_FIELD_BY_ID, filedID);
 		return isElementEnabled(driver, BasePageUI.ANY_FIELD_BY_ID, filedID);
+
+	}
+
+	/**
+	 * HRM_ORANGE - BLOODTYPE - Print out all values in dropdown list/textbox
+	 * 
+	 * @param driver
+	 * @param dropdownByName
+	 * @param dynamicValues
+	 * @return All values of dropdown textbox
+	 */
+	public boolean getAllValuesInDropdownListByName(WebDriver driver, String dropdownByName, String... dynamicValues) {
+		waitForElementClickable(driver, BasePageUI.BLOOD_TYPE_DROPDOWN, dropdownByName);
+		clickToElement(driver, BasePageUI.BLOOD_TYPE_DROPDOWN, dropdownByName);
+
+		List<WebElement> nameElements = getListWebElement(driver, BasePageUI.BLOOD_TYPE_DROPDOWN, dropdownByName);
+
+		List<String> nameValues = new ArrayList<String>();
+
+		for (WebElement name : nameElements) {
+			nameValues.add(name.getText());
+		}
+		List<String> nameValuesClone = new ArrayList<String>();
+		for (String profileList : nameValues) {
+			nameValuesClone.add(profileList);
+		}
+		System.out.println("►►►►►►►►►►►►►►►►►►►►►►►►►►►►►►");
+		for (String profileList : nameValuesClone) {
+			System.out.println(profileList);
+		}
+
+		return nameValues.equals(nameValuesClone);
+
+	}
+
+	/**
+	 * HRM_ORANGE - BLOODTYPE - Select one item in dropdown list/textbox
+	 * 
+	 * @param driver
+	 * @param dropdownByID
+	 * @param dynamicValues
+	 */
+	public void selectItemInDropdownByName(WebDriver driver, String dropdownByName, String valueItem) {
+		waitForElementClickable(driver, BasePageUI.BLOOD_TYPE_DROPDOWN, dropdownByName);
+		selectItemInDefaultDropdown(driver, BasePageUI.BLOOD_TYPE_DROPDOWN, valueItem, dropdownByName);
+	}
+
+	/**
+	 * HRM_ORANGE - BLOODTYPE - Select Disabled Text in dropdown list/textbox
+	 * 
+	 * @param driver
+	 * @param dropdownByName
+	 * @param disabledText
+	 * @param dynamicValues
+	 * @return
+	 */
+	public String getDisabledTextInBloodTypeDropdownByName(WebDriver driver, String dropdownByName, String disabledText,
+			String... dynamicValues) {
+		waitForElementVisible(driver, BasePageUI.BLOOD_TYPE_DROPDOWN, dropdownByName);
+		return getSelectedItemByTextInDefaultDropdown(driver, BasePageUI.BLOOD_TYPE_DROPDOWN, disabledText,
+				dropdownByName);
+	}
+
+	public boolean getAllValuesInDropdownByID(WebDriver driver, String dropdownByID, String... dynamicValues) {
+		waitForElementClickable(driver, BasePageUI.DROPDOWN_BY_ID, dropdownByID);
+		clickToElement(driver, BasePageUI.DROPDOWN_BY_ID, dropdownByID);
+
+		List<WebElement> nameElements = getListWebElement(driver, BasePageUI.DROPDOWN_BY_ID, dropdownByID);
+
+		List<String> nameValues = new ArrayList<String>();
+
+		for (WebElement name : nameElements) {
+			nameValues.add(name.getText());
+		}
+		List<String> nameValuesClone = new ArrayList<String>();
+		for (String profileList : nameValues) {
+			nameValuesClone.add(profileList);
+		}
+		System.out.println("►►►►►►►►►►►►►►►►►►►►►►►►►►►►►►");
+		for (String profileList : nameValuesClone) {
+			System.out.println(profileList);
+		}
+
+		return nameValues.equals(nameValuesClone);
 
 	}
 
@@ -864,39 +964,10 @@ public class BasePage {
 
 	}
 
-	public boolean getAllValuesInDropdownByID(WebDriver driver, String dropdownByID, String... dynamicValues) {
-		waitForElementClickable(driver, BasePageUI.DROPDOWN_BY_ID, dropdownByID);
-		clickToElement(driver, BasePageUI.DROPDOWN_BY_ID, dropdownByID);
-
-		List<WebElement> nameElements = getListWebElement(driver, BasePageUI.DROPDOWN_BY_ID, dropdownByID);
-
-		List<String> nameValues = new ArrayList<String>();
-
-		for (WebElement name : nameElements) {
-			nameValues.add(name.getText());
-		}
-		List<String> nameValuesClone = new ArrayList<String>();
-		for (String profileList : nameValues) {
-			nameValuesClone.add(profileList);
-		}
-		System.out.println("►►►►►►►►►►►►►►►►►►►►►►►►►►►►►►");
-		for (String profileList : nameValuesClone) {
-			System.out.println(profileList);
-		}
-
-		return nameValues.equals(nameValuesClone);
-
+	public void clickOnElementByTextInTableByID(WebDriver driver, String tableID, String elementByText) {
+		waitForElementClickable(driver, BasePageUI.ELEMENT_BY_TEXT_IN_TABLE_BY_ID, tableID, elementByText);
+		clickToElement(driver, BasePageUI.ELEMENT_BY_TEXT_IN_TABLE_BY_ID, tableID, elementByText);
 	}
-
-	public void clickOnElementAtRowByColumnAndIndex(WebDriver driver, String tableID, String headerName,
-			String rowIndex) {
-		int columnIndex = getElementSize(driver, BasePageUI.TABLE_HEADER_BY_ID_AND_NAME, tableID, headerName) + 1;
-		waitForElementClickable(driver, BasePageUI.TABLE_ROW_BY_COLUMN_INDEX_AND_ROW_INDEX, tableID, rowIndex,
-				String.valueOf(columnIndex));
-		clickToElement(driver, BasePageUI.TABLE_ROW_BY_COLUMN_INDEX_AND_ROW_INDEX, tableID, rowIndex,
-				String.valueOf(columnIndex));
-	}
-
 	public long longTimeout = GlobalConstants.LONG_TIMEOUT;
 
 }
