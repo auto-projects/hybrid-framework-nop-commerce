@@ -2,7 +2,10 @@ package commons;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -14,6 +17,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
@@ -55,7 +59,7 @@ public class BaseTest {
 			System.out.println("Driver init at Base Test = " + driver.toString());
 		} else if (browser == BROWSER.CHROME) {
 			WebDriverManager.chromedriver().setup();
-			
+
 //			ChromeOptions options = new ChromeOptions();
 //			options.addExtensions(new File(GlobalConstants.PROJECT_PATH + "\\browserExtensions\\UltraSuft"));
 //			
@@ -86,32 +90,76 @@ public class BaseTest {
 		BROWSER browser = BROWSER.valueOf(browserName.toUpperCase());
 		if (browser == BROWSER.FIREFOX) {
 			WebDriverManager.firefoxdriver().setup();
+			
+			// [FIREFOX] Setting languages (Phải Manual Adding bộ ngôn ngữ cho Trình duyệt trước)
+			FirefoxOptions options_language = new FirefoxOptions();
+			options_language.addPreference("intl.accpt_languages", "vi-vn, vi, en-us, en");
+			driver = new FirefoxDriver(options_language);
 
+			// [FIREFOX] Disable những Warning khi Run = Firefox -> Bỏ vào File Log riêng
 			System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE, "true");
 			System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, GlobalConstants.PROJECT_PATH
 					+ File.separator + "browserConsoleLogs" + File.separator + "Firefox.log");
 
+			// [FIREFOX] Browser Extension
+			FirefoxProfile profile = new FirefoxProfile();
+			File extensionFile = new File(GlobalConstants.PROJECT_PATH + File.separator + "browserExtensions"
+					+ File.separator + "selectorshub-4.3.3-fx.xpi");
+			profile.addExtension(extensionFile);
+			FirefoxOptions options_extension = new FirefoxOptions();
+			options_extension.setProfile(profile); // Do Firefox không có hàm AddExtension nên phải Add thông qua
+													// setProfile
+			driver = new FirefoxDriver(options_extension);
+
 			driver = new FirefoxDriver();
 			System.out.println("Driver init at Base Test = " + driver.toString());
+
 		} else if (browser == BROWSER.CHROME) {
 			WebDriverManager.chromedriver().setup();
 			
-//			ChromeOptions options = new ChromeOptions();
-//			options.addExtensions(new File(GlobalConstants.PROJECT_PATH + "\\browserExtensions\\UltraSuft"));
-//			
+			// [CHROME] Disable Noti Pop-ups
+			ChromeOptions options_notipopup = new ChromeOptions();
+			options_notipopup.setExperimentalOption("useAutomationExtension", false);
+			options_notipopup.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
+			options_notipopup.addArguments("--disable-geolocation");
+			options_notipopup.addArguments("--disable-notifications");
+			options_notipopup.addArguments("--disable-infobars");
+			Map<String, Object> prefs = new HashMap<String, Object>();
+			prefs.put("credentials_enable_service",  false);
+			prefs.put("profile.password_manager_enabled",  false);
+			options_notipopup.setExperimentalOption("prefs", prefs);
+			driver = new ChromeDriver(options_notipopup);
+
+			// [CHROME] Browser Extension
+			File extensionFile = new File(GlobalConstants.PROJECT_PATH + File.separator + "browserExtensions"
+					+ File.separator + "selectorshub-4.3.3.crx");
+			ChromeOptions options_extension = new ChromeOptions();
+			options_extension.addExtensions(extensionFile); // Chrome có sẵn hàm AddExtension
+			driver = new ChromeDriver(options_extension);
+
+			// [CHROME] Ultra Surf
+			ChromeOptions options_ultrasurf = new ChromeOptions();
+			options_ultrasurf.addExtensions(new File(GlobalConstants.PROJECT_PATH + File.separator + "browserExtensions"
+					+ File.separator + "ultrasurf."));
+			driver = new ChromeDriver(options_ultrasurf);
+
 			driver = new ChromeDriver();
 			System.out.println("Driver init at Base Test = " + driver.toString());
+
 		} else if (browser == BROWSER.EDGE_CHROMIUM) {
 			WebDriverManager.edgedriver().setup();
 			driver = new EdgeDriver();
 			System.out.println("Driver init at Base Test = " + driver.toString());
+
 		} else if (browser == BROWSER.IE) {
 			WebDriverManager.iedriver().setup();
 			driver = new InternetExplorerDriver();
 			System.out.println("Driver init at Base Test = " + driver.toString());
+
 		} else if (browser == BROWSER.SAFARI) {
 			driver = new SafariDriver();
 			System.out.println("Driver init at Base Test = " + driver.toString());
+
 		} else if (browser == BROWSER.H_CHROME) {
 			WebDriverManager.chromedriver().setup();
 			ChromeOptions options = new ChromeOptions();
@@ -119,6 +167,7 @@ public class BaseTest {
 			options.addArguments("window-size=1920x1080");
 			driver = new ChromeDriver(options);
 			System.out.println("Driver init at Base Test = " + driver.toString());
+
 		} else if (browser == BROWSER.H_FIREFOX) {
 			WebDriverManager.firefoxdriver().setup();
 			FirefoxOptions options = new FirefoxOptions();
@@ -126,6 +175,7 @@ public class BaseTest {
 			options.addArguments("window-size=1920x1080");
 			driver = new FirefoxDriver(options);
 			System.out.println("Driver init at Base Test = " + driver.toString());
+
 		} else {
 			throw new RuntimeException("PLEASE ENTER A CORRECT BROWSER NAME!!!");
 		}
@@ -322,12 +372,12 @@ public class BaseTest {
 		}
 	}
 
-	protected void showBrowserConsoleLogs(WebDriver driver) {
+	protected void showBrowserConsoleLogs(WebDriver driver) { // Chỉ Support đv Chrome, Gecko không sp
 		if (driver.toString().contains("chrome")) {
 			LogEntries logs = driver.manage().logs().get("browser");
 			List<LogEntry> logList = logs.getAll();
 			for (LogEntry logging : logList) {
-				System.out.println("►►►►►►►►►►►►►►► " + logging.getLevel().toString() + " ►►►►►►►►►►►►►►► \n"
+				log.info("►►►►►►►►►►►►►►► " + logging.getLevel().toString() + " ►►►►►►►►►►►►►►► \n"
 						+ logging.getMessage());
 			}
 		}

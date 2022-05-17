@@ -174,6 +174,7 @@ public class Level_19_Fake_Data extends BaseTest {
 
 		log.info("Pre-Condition - Step 02: Login with Admin Role");
 		dashboardPage = loginPage.loginToSystem(driver, adminUserName, adminPassword);
+		showBrowserConsoleLogs(driver);
 	}
 
 	@Test
